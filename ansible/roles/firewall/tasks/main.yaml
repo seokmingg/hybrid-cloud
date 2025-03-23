@@ -1,0 +1,28 @@
+---
+- name: Allow Kubernetes API Server (6443)
+  ufw:
+    rule: allow
+    port: 6443
+    proto: tcp
+
+- name: Allow Kubelet API (10250)
+  ufw:
+    rule: allow
+    port: 10250
+    proto: tcp
+
+- name: Allow NodePort Range (30000-32767)
+  ufw:
+    rule: allow
+    port: 30000:32767
+    proto: tcp
+
+- name: Allow SSH (22)
+  ufw:
+    rule: allow
+    port: 22
+    proto: tcp
+
+- name: Enable UFW
+  ufw:
+    state: enabled

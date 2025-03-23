@@ -1,0 +1,5 @@
+- name: Set firewall rules
+  hosts: onprem
+  become: true
+  roles:
+    - firewall
