@@ -1,0 +1,8 @@
+- name: 마스터에서 join 커맨드 문자열 가져오기
+  shell: kubeadm token create --print-join-command
+  register: join_cmd
+  delegate_to: onprem-master
+  run_once: true
+
+- name: 워커에서 join 커맨드 실행
+  command: "{{ join_cmd.stdout }}"

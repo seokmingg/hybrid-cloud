@@ -1,0 +1,23 @@
+- name: Common config for all nodes
+  hosts: onprem
+  become: true
+  roles:
+    - common
+
+- name: Master node config
+  hosts: onprem_master
+  become: true
+  roles:
+    - master
+
+- name: Worker node config
+  hosts: onprem_worker
+  become: true
+  roles:
+    - worker
+
+- name: CNI(Network Plugin) calico 설치
+  hosts: onprem-master
+  become: yes
+  roles:
+    - cni

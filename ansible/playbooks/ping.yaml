@@ -1,0 +1,6 @@
+- name: Ping test to onprem nodes
+  hosts: onprem
+  gather_facts: no
+  tasks:
+    - name: Ping all nodes
+      ansible.builtin.ping:

@@ -1,0 +1,38 @@
+---
+- name: kubeadm init 실행
+  command: kubeadm init --pod-network-cidr=192.168.0.0/16
+  register: kubeadm_init
+  args:
+    creates: /etc/kubernetes/admin.conf
+
+- name: kubeadm init 출력 저장
+  copy:
+    content: "{{ kubeadm_init.stdout }}"
+    dest: /root/kubeadm-init.log
+
+- name: kubectl 설정 디렉토리 생성
+  file:
+    path: /home/seokmin/.kube
+    state: directory
+    owner: seokmin
+    group: seokmin
+    mode: '0755'
+
+- name: admin.conf 복사 (kubectl 명령어용)
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /home/seokmin/.kube/config
+    owner: seokmin
+    group: seokmin
+    mode: '0644'
+    remote_src: yes
+
+- name: Join 커맨드 추출만 수행 (워크용)
+  shell: kubeadm token create --print-join-command
+  register: join_command
+  delegate_to: onprem-master   # ✅ 수정!
+  become: yes                  # ✅ root 권한으로 실행 필요
+  run_once: true
+  tags: join
+
+# 또는 저장하지 않으려면 그냥 이 task 자체를 제거하고, 워커에서 바로 delegate_to로 가져와도 OK

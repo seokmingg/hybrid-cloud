@@ -1,0 +1,9 @@
+---
+- name: Calico CNI 설치 - Tigera Calico operator 배포
+  ansible.builtin.shell: |
+    kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/calico.yaml
+  args:
+    executable: /bin/bash
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  when: inventory_hostname == "onprem-master"
