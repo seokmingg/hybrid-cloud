@@ -1,5 +1,5 @@
 .PHONY: all \
-    accounts-role common docker install-k8s master-init worker-join cni\
+    accounts-role common docker install-k8s master-init worker-join cni \
     vpn firewall
 
 # 전체 실행 (순차적으로 실행)
@@ -17,21 +17,21 @@ common:
 docker:
 	ansible-playbook playbooks/docker.yaml -i inventory/hosts.ini
 
-
 # Kubernetes 설치 (kubeadm, kubelet, kubectl 설치)
 install-k8s:
-	ansible-playbook playbooks/install-k8s.yaml -i inventory/hosts.ini
+	ansible-playbook playbooks/k8s/install-k8s.yaml -i inventory/hosts.ini
 
 # 마스터 노드 초기화 (kubeadm init)
 master-init:
-	ansible-playbook playbooks/master-init.yaml -i inventory/hosts.ini
+	ansible-playbook playbooks/k8s/master-init.yaml -i inventory/hosts.ini
 
 # 워커 노드 조인 (kubeadm join)
 worker-join:
-	ansible-playbook playbooks/worker-join.yaml -i inventory/hosts.ini
-# cni 설치
+	ansible-playbook playbooks/k8s/worker-join.yaml -i inventory/hosts.ini
+
+# CNI 설치 (Calico 등)
 cni:
-	ansible-playbook playbooks/cni.yaml -i inventory/hosts.ini
+	ansible-playbook playbooks/k8s/cni.yaml -i inventory/hosts.ini
 
 # VPN 설정
 vpn:
