@@ -1,0 +1,6 @@
+---
+- name: 사용자 및 권한 설정
+  hosts: onprem
+  become: true
+  roles:
+    - accounts-role

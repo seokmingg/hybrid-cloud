@@ -6,4 +6,3 @@
     executable: /bin/bash
   environment:
     KUBECONFIG: /etc/kubernetes/admin.conf
-  when: inventory_hostname == "onprem-master"

@@ -1,0 +1,6 @@
+---
+- name: Kubernetes 워커 노드 조인
+  hosts: onprem_worker
+  become: true
+  roles:
+    - worker-join-role

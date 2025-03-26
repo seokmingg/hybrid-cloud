@@ -1,0 +1,41 @@
+# roles/install-k8s/tasks/main.yaml
+- name: Kubernetes GPG 키 디렉토리 생성
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+
+- name: Kubernetes GPG 키 존재 여부 확인
+  stat:
+    path: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+  register: k8s_gpg_key_file
+
+- name: GPG 키 다운로드
+  shell: |
+    curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | \
+    gpg --dearmor | tee /etc/apt/keyrings/kubernetes-apt-keyring.gpg > /dev/null
+  args:
+    executable: /bin/bash
+  when: not k8s_gpg_key_file.stat.exists
+
+- name: Kubernetes 저장소 등록
+  copy:
+    dest: /etc/apt/sources.list.d/kubernetes.list
+    content: |
+      deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /
+    mode: '0644'
+
+- name: APT 캐시 업데이트
+  apt:
+    update_cache: yes
+
+- name: kubeadm, kubelet, kubectl 설치
+  apt:
+    name:
+      - kubelet
+      - kubeadm
+      - kubectl
+    state: present
+
+- name: kubeadm, kubelet, kubectl hold 설정
+  command: apt-mark hold kubelet kubeadm kubectl

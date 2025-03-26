@@ -1,0 +1,6 @@
+---
+- name: Docker,cri-dockerd 설치
+  hosts: onprem
+  become: true
+  roles:
+    - docker

@@ -1,0 +1,6 @@
+---
+- name: 공통 설정 적용
+  hosts: onprem
+  become: true
+  roles:
+    - common

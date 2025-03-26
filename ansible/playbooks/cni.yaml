@@ -1,0 +1,6 @@
+---
+- name: CNI(Network Plugin) calico 설치
+  hosts: onprem-master
+  become: yes
+  roles:
+    - cni

@@ -1,6 +1,7 @@
 ---
+# roles/master-init-role/tasks/main.yaml
 - name: kubeadm init 실행
-  command: kubeadm init --pod-network-cidr=192.168.0.0/16
+  command: kubeadm init --pod-network-cidr=192.168.0.0/16 --cri-socket=unix:///var/run/cri-dockerd.sock
   register: kubeadm_init
   args:
     creates: /etc/kubernetes/admin.conf
@@ -27,12 +28,13 @@
     mode: '0644'
     remote_src: yes
 
-- name: Join 커맨드 추출만 수행 (워크용)
-  shell: kubeadm token create --print-join-command
-  register: join_command
-  delegate_to: onprem-master   # ✅ 수정!
-  become: yes                  # ✅ root 권한으로 실행 필요
-  run_once: true
-  tags: join
+#
+#- name: Join 커맨드 추출만 수행 (워크용)
+#  shell: kubeadm token create --print-join-command
+#  register: join_command
+#  delegate_to: onprem-master   # ✅ 수정!
+#  become: yes                  # ✅ root 권한으로 실행 필요
+#  run_once: true
+#  tags: join
 
 # 또는 저장하지 않으려면 그냥 이 task 자체를 제거하고, 워커에서 바로 delegate_to로 가져와도 OK

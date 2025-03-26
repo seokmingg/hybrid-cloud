@@ -1,0 +1,6 @@
+---
+- name: Kubernetes 마스터 초기화
+  hosts: onprem_master
+  become: true
+  roles:
+    - master-init-role

@@ -1,2 +1,15 @@
+# IntelliJ 설정
 .idea/
 *.iml
+
+# Helm 민감 정보
+helm/external-secrets-config/values.yaml
+
+# Terraform 상태
+terraform/**/*.tfstate
+terraform/**/*.tfstate.backup
+
+terraform-outputs.json
+# Ansible
+*.retry
+*.log
