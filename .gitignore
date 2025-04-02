@@ -6,6 +6,7 @@
 helm/external-secrets-config/values.yaml
 
 # Terraform 상태
+terraform
 terraform/**/*.tfstate
 terraform/**/*.tfstate.backup
 
@@ -13,3 +14,6 @@ terraform-outputs.json
 # Ansible
 *.retry
 *.log
+
+
+보류/

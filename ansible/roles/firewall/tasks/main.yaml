@@ -1,20 +1,27 @@
 ---
-- name: Allow Kubernetes API Server (6443)
+- name: Allow Kubernetes API Server external access (6443)
   ufw:
     rule: allow
     port: 6443
     proto: tcp
 
-- name: Allow Kubelet API (10250)
+- name: Allow internal API Server communication from cluster IP range (443)
+  ufw:
+    rule: allow
+    port: 443
+    proto: tcp
+    from_ip: "10.96.0.0/12"
+
+- name: Allow Kubelet API access (10250)
   ufw:
     rule: allow
     port: 10250
     proto: tcp
 
-- name: Allow NodePort Range (30000-32767)
+- name: Allow NodePort range (30000-32767)
   ufw:
     rule: allow
-    port: 30000:32767
+    port: "30000:32767"
     proto: tcp
 
 - name: Allow SSH (22)
@@ -22,6 +29,12 @@
     rule: allow
     port: 22
     proto: tcp
+
+- name: Allow pod network traffic (e.g., 192.168.95.0/24) on all ports
+  ufw:
+    rule: allow
+    from_ip: "192.168.95.0/24"
+    proto: any
 
 - name: Enable UFW
   ufw:
