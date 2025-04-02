@@ -1,0 +1,37 @@
+expose:
+  type: ingress
+  ingress:
+    ingressClassName: istio
+    hosts:
+      core: harbor.seokmin.com
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+    tls:
+      enabled: true
+      secretName: wildcard-seokmin-com-tls
+
+externalURL: https://harbor.seokmin.com
+
+harborAdminPassword: "12345"
+
+auth:
+  mode: database_auth
+  csrf:
+    key: "harbor-csrf-key"
+    expiration: 7200
+
+persistence:
+  persistentVolumeClaim:
+    storageClass: nfs-storage
+    registry:
+      size: 5Gi
+    chartmuseum:
+      size: 2Gi
+    jobservice:
+      size: 1Gi
+    database:
+      size: 2Gi
+    redis:
+      size: 1Gi
+    trivy:
+      size: 1Gi

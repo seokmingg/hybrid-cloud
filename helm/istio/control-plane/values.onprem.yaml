@@ -1,0 +1,6 @@
+global:
+  proxy:
+    autoInject: enabled
+
+meshConfig:
+  accessLogFile: /dev/stdout

@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-seokmin-com
+  namespace: istio-system
+spec:
+  secretName: wildcard-seokmin-com-tls
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  issuerRef:
+    name: letsencrypt-dns
+    kind: ClusterIssuer
+  commonName: "*.seokmin.com"
+  dnsNames:
+    - "*.seokmin.com"
+    - "seokmin.com"

@@ -1,0 +1,39 @@
+# hybrid-cloud/helm/argocd/values.onprem.yaml
+global:
+  domain: argocdt.seokmin.com
+
+server:
+  ingress:
+    enabled: true
+    ingressClassName: istio
+    annotations:
+      kubernetes.io/ingress.class: istio
+    hosts:
+      - argocdt.seokmin.com
+    tls:
+      - secretName: wildcard-seokmin-com-tls
+        hosts:
+          - argocdt.seokmin.com
+    gateway:
+      enabled: true
+      name: test-gateway
+      namespace: istio-system
+
+configs:
+  params:
+    server.insecure: true
+
+  secret:
+    createSecret: true
+
+repoServer:
+  autoscaling:
+    enabled: false
+
+controller:
+  replicas: 1
+
+redis:
+  enabled: true
+dex:
+  enabled: false

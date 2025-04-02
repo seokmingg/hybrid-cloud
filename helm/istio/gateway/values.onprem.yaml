@@ -1,0 +1,14 @@
+nodeSelector:
+  kubernetes.io/hostname: onprem-worker-2
+
+service:
+  type: NodePort
+  ports:
+    - name: http2
+      port: 80
+      targetPort: 8080
+      nodePort: 30080
+    - name: https
+      port: 443
+      targetPort: 8443
+      nodePort: 30443

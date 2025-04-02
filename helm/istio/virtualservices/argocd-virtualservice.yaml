@@ -1,0 +1,25 @@
+# hybrid-cloud/helm/istio/virtualservices/argocd-virtualservice.yaml
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: argocd-virtualservice
+  namespace: istio-system
+spec:
+  hosts:
+    - argocdt.seokmin.com
+  gateways:
+    - test-gateway
+  http:
+    # 1. HTTP 요청은 HTTPS로 리다이렉트
+    - match:
+        - port: 80
+      redirect:
+        scheme: https
+        redirectCode: 308
+
+    # 2. HTTPS 요청은 ArgoCD 서버로 포워딩
+    - route:
+        - destination:
+            host: argocd-server.argocd.svc.cluster.local
+            port:
+              number: 443
