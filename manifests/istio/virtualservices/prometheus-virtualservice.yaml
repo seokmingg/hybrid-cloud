@@ -1,0 +1,22 @@
+# manifests/istio/virtualservices/prometheus-virtualservice.yaml
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: prometheus-vs
+  namespace: istio-system
+spec:
+  hosts:
+    - prometheust.seokmin.com
+  gateways:
+    - test-gateway
+  http:
+    - match:
+        - port: 80
+      redirect:
+        scheme: https
+        redirectCode: 308
+    - route:
+        - destination:
+            host: prometheus.monitoring.svc.cluster.local
+            port:
+              number: 80

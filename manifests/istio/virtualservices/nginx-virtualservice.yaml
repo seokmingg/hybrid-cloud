@@ -1,0 +1,22 @@
+# manifests/istio/virtualservices/nginx-virtualservice.yaml
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: nginx-vs
+  namespace: istio-system
+spec:
+  hosts:
+    - test.seokmin.com
+  gateways:
+    - test-gateway   # 너가 이미 쓰고 있는 gateway
+  http:
+    - match:
+        - port: 80
+      redirect:
+        scheme: https
+        redirectCode: 308
+    - route:
+        - destination:
+            host: nginx.default.svc.cluster.local
+            port:
+              number: 80
