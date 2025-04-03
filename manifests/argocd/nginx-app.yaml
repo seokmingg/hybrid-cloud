@@ -10,6 +10,8 @@ spec:
     repoURL: https://github.com/seokmingg/hybrid-cloud
     targetRevision: main
     path: helm/gitops-test/nginx
+    helm:
+      releaseName: nginx
   destination:
     server: https://kubernetes.default.svc
     namespace: default
