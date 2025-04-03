@@ -15,6 +15,9 @@ spec:
       hosts:
         - harbor.seokmin.com
         - argocdt.seokmin.com
+        - test.seokmin.com
+        - prometheust.seokmin.com
+        - grafanat.seokmin.com
     - port:
         number: 443
         name: https
@@ -25,3 +28,6 @@ spec:
       hosts:
         - harbor.seokmin.com
         - argocdt.seokmin.com
+        - test.seokmin.com
+        - prometheust.seokmin.com
+        - grafanat.seokmin.com
