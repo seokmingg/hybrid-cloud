@@ -1,0 +1,8 @@
+cni:
+  cniBinDir: /opt/cni/bin
+  cniConfDir: /etc/cni/net.d
+  chained: true
+  logLevel: info
+  excludeNamespaces:
+    - istio-system
+    - kube-system

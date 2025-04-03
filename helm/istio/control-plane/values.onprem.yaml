@@ -1,6 +1,15 @@
 global:
   proxy:
     autoInject: enabled
+  istioNamespace: istio-system
 
 meshConfig:
   accessLogFile: /dev/stdout
+  enablePrometheusMerge: true
+  defaultConfig:
+    proxyMetadata:
+      ISTIO_META_ENABLE_IPV6: "false"
+  defaultServiceExportTo:
+    - "*"
+  defaultDestinationRuleExportTo:
+    - "*"

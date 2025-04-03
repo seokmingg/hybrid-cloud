@@ -4,20 +4,16 @@ global:
 
 server:
   ingress:
-    enabled: true
-    ingressClassName: istio
-    annotations:
-      kubernetes.io/ingress.class: istio
-    hosts:
-      - argocdt.seokmin.com
-    tls:
-      - secretName: wildcard-seokmin-com-tls
-        hosts:
-          - argocdt.seokmin.com
-    gateway:
-      enabled: true
-      name: test-gateway
-      namespace: istio-system
+    enabled: false
+#    ingressClassName: istio
+#    annotations:
+#      kubernetes.io/ingress.class: istio
+#    hosts:
+#      - argocdt.seokmin.com
+#    tls:
+#      - secretName: wildcard-seokmin-com-tls
+#        hosts:
+#          - argocdt.seokmin.com
 
 configs:
   params:

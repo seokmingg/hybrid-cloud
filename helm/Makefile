@@ -37,6 +37,13 @@ install-istio-onprem:
 	  -n istio-system \
 	  -f istio/base/values.onprem.yaml
 
+
+	helm upgrade --install istio-cni \
+    	  --repo https://istio-release.storage.googleapis.com/charts \
+    	  cni \
+    	  -n istio-system \
+    	  -f istio/cni/values.onprem.yaml
+
 	helm upgrade --install istiod \
 	  --repo https://istio-release.storage.googleapis.com/charts \
 	  istiod \
