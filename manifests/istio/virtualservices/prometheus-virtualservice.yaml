@@ -16,12 +16,12 @@ spec:
       redirect:
         scheme: https
         redirectCode: 308
-      route:
-        - destination:
-            host: prometheus-prometheus.monitoring.svc.cluster.local
-            port:
-              number: 9090
-
+#      route:
+#        - destination:
+#            host: prometheus-prometheus.monitoring.svc.cluster.local
+#            port:
+#              number: 9090
+#
 
 
     # 2. HTTPS 요청 처리
