@@ -1,4 +1,4 @@
-# 📦 helm/prometheus/values.onprem.yaml
+# 📦 helm/kube-prometheus-stack/values.onprem.yaml
 
 # -- 기본 설정
 fullnameOverride: prometheus
