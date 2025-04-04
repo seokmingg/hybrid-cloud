@@ -1,4 +1,5 @@
 cni:
+  enabled: true
   cniBinDir: /opt/cni/bin
   cniConfDir: /etc/cni/net.d
   chained: true
@@ -6,3 +7,6 @@ cni:
   excludeNamespaces:
     - istio-system
     - kube-system
+
+global:
+  istioNamespace: istio-system
