@@ -1,7 +1,19 @@
 externalURL: https://harbor.seokmin.com
 
 expose:
-  type: none  # 👈 ingress 사용 안 함
+  type: ingress
+  ingress:
+    ingressClassName: istio
+    hosts:
+      core: harbor.seokmin.com
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dns
+    tls:
+      enabled: true
+      secretName: wildcard-seokmin-com-tls
+    # 자동 인증서 발급은 사용하지 않음
+    auto:
+      enabled: false
 
 harbor:
   existingSecret: harbor-admin
