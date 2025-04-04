@@ -18,7 +18,9 @@ spec:
         redirectCode: 308
 
     # 2. HTTPS 요청은 ArgoCD 서버로 포워딩
-    - route:
+    - match:
+        - port: 443
+      route:
         - destination:
             host: argocd-server.argocd.svc.cluster.local
             port:
