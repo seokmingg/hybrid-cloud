@@ -15,7 +15,7 @@ spec:
         - values.onprem.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: istio-system
+    namespace: kube-system
   syncPolicy:
     automated:
       selfHeal: true

@@ -7,6 +7,7 @@ cni:
   excludeNamespaces:
     - istio-system
     - kube-system
+  namespace: kube-system
 
 global:
   istioNamespace: istio-system
