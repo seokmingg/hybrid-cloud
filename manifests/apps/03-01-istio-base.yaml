@@ -7,12 +7,12 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://istio-release.storage.googleapis.com/charts
-    chart: base
-    targetRevision: 1.21.1
+    repoURL: https://github.com/seokmingg/hybrid-cloud
+    targetRevision: main
+    path: helm/istio/base
     helm:
       valueFiles:
-        - ../../helm/istio/base/values.onprem.yaml
+        - values.onprem.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: istio-system
