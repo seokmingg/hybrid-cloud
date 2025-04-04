@@ -42,14 +42,14 @@ spec:
             - -c
             - |
               echo "👉 네임스페이스 라벨 추가 중..."
-              kubectl label namespace argocd istio-injection=enabled --overwrite
-              kubectl label namespace harbor istio-injection=enabled --overwrite
-              kubectl label namespace monitoring istio-injection=enabled --overwrite
+              kubectl label namespace argocd istio-injection=enabled --overwrite  || true
+              kubectl label namespace harbor istio-injection=enabled --overwrite  || true
+              kubectl label namespace monitoring istio-injection=enabled --overwrite  || true
 
               echo "🔄 Deployment 롤아웃 중..."
-              kubectl rollout restart deploy -n argocd argocd-server
-              kubectl rollout restart deploy -n harbor harbor-core
-              kubectl rollout restart deploy -n harbor portal
-              kubectl rollout restart deploy -n harbor jobservice
-              kubectl rollout restart deploy -n monitoring grafana
+              kubectl rollout restart deploy -n argocd argocd-server  || true
+              kubectl rollout restart deploy -n harbor harbor-core  || true
+              kubectl rollout restart deploy -n harbor portal  || true 
+              kubectl rollout restart deploy -n harbor jobservice  || true
+              kubectl rollout restart deploy -n monitoring grafana  || true
       restartPolicy: OnFailure
