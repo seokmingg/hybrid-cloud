@@ -2,6 +2,9 @@
 .idea/
 *.iml
 
+Makefile
+
+
 # Helm 민감 정보
 helm/external-secrets-config/values.yaml
 
