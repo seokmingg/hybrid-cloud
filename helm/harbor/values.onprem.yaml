@@ -1,3 +1,5 @@
+externalURL: https://harbor.seokmin.com
+
 expose:
   type: ingress
   ingress:
@@ -10,17 +12,15 @@ expose:
       enabled: true
       secretName: wildcard-seokmin-com-tls
 
-externalURL: https://harbor.seokmin.com
-
-harborAdminPassword:
+harbor:
   existingSecret: harbor-admin
-  key: harbor-admin-password
+  secretKey: harbor-admin-password
 
-auth:
-  mode: database_auth
-  csrf:
-    key: "harbor-csrf-key"
-    expiration: 7200
+  auth:
+    mode: database_auth
+    csrf:
+      key: "harbor-csrf-key"
+      expiration: 7200
 
 persistence:
   persistentVolumeClaim:
