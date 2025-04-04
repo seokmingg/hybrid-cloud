@@ -1,0 +1,11 @@
+- name: Setup NFS Server on master
+  hosts: onprem_master
+  become: true
+  roles:
+    - nfs-server
+
+- name: Mount NFS on worker nodes
+  hosts: onprem_worker
+  become: true
+  roles:
+    - nfs-client

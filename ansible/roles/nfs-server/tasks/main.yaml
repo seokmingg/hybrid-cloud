@@ -1,0 +1,53 @@
+- name: Install nfs-kernel-server
+  apt:
+    name: nfs-kernel-server
+    state: present
+    update_cache: true
+
+- name: Format the disk as ext4
+  filesystem:
+    fstype: ext4
+    dev: /dev/sdb
+  ignore_errors: true  # 이미 포맷된 경우 무시
+
+- name: Create mount directory
+  file:
+    path: /mnt/nfs-storage
+    state: directory
+    mode: '0777'
+    owner: nobody
+    group: nogroup
+
+- name: Mount disk
+  mount:
+    path: /mnt/nfs-storage
+    src: /dev/sdb
+    fstype: ext4
+    opts: defaults
+    state: mounted
+
+- name: Add to /etc/fstab
+  mount:
+    path: /mnt/nfs-storage
+    src: /dev/sdb
+    fstype: ext4
+    opts: defaults
+    state: present
+
+- name: Configure /etc/exports
+  lineinfile:
+    path: /etc/exports
+    line: "/mnt/nfs-storage 192.168.0.0/24(rw,sync,no_subtree_check,no_root_squash)"
+    state: present
+
+- name: Restart NFS service
+  systemd:
+    name: nfs-kernel-server
+    state: restarted
+    enabled: true
+
+- name: Allow NFS through UFW
+  ufw:
+    rule: allow
+    from_ip: 192.168.0.0/24
+    port: nfs

@@ -1,0 +1,18 @@
+- name: Extend LVM root volume by 6GB on all onprem nodes
+  hosts: onprem
+  become: true
+  tasks:
+    - name: Install lvm2 if not present
+      apt:
+        name: lvm2
+        state: present
+        update_cache: yes
+
+    - name: Resize Physical Volume
+      command: pvresize /dev/sda3
+
+    - name: Extend Logical Volume by 6GB
+      command: lvextend -L +6G /dev/ubuntu-vg/ubuntu-lv
+
+    - name: Resize filesystem
+      command: resize2fs /dev/ubuntu-vg/ubuntu-lv

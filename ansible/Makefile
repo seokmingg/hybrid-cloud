@@ -13,6 +13,14 @@ accounts-role:
 common:
 	ansible-playbook playbooks/common.yaml -i inventory/hosts.ini
 
+# nfs 설치 및 마운트
+nfs:
+	ansible-playbook playbooks/setup-nfs.yaml -i inventory/hosts.ini
+
+# lvm 추가
+lvm:
+	ansible-playbook playbooks/extend_lvm_6gb.yaml -i inventory/hosts.ini
+
 # Docker 설치
 docker:
 	ansible-playbook playbooks/docker.yaml -i inventory/hosts.ini
