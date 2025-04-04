@@ -8,7 +8,7 @@ expose:
     # 자동 인증서 발급은 사용하지 않음
     auto:
       enabled: false
-
+      commonName: harbor.seokmin.com
 harbor:
   existingSecret: harbor-admin
   secretKey: harbor-admin-password
