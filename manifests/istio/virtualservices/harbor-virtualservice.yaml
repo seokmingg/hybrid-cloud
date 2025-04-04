@@ -12,9 +12,9 @@ spec:
     # 1. HTTP → HTTPS 리다이렉트
     - match:
         - port: 80
-#      redirect:
-#        scheme: https
-#        redirectCode: 308
+      redirect:
+        scheme: https
+        redirectCode: 308
 
     # 2. /api, /service, /c, /v2 경로는 core로 전달
     - match:
