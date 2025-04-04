@@ -1,10 +1,11 @@
 # helm/istio/gateway/values.onprem.yaml
-
-image:
-  registry: docker.io
-  repository: istio/proxyv2
-  tag: 1.25.1
-  pullPolicy: IfNotPresent
+global:
+  proxy:
+    image:
+      registry: docker.io
+      repository: istio/proxyv2
+      tag: 1.25.1
+      pullPolicy: IfNotPresent
 
 service:
   type: NodePort
