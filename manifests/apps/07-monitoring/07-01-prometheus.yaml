@@ -11,9 +11,10 @@ spec:
   source:
     repoURL: https://prometheus-community.github.io/helm-charts
     chart: kube-prometheus-stack
-    targetRevision: 55.5.0  # 원하는 버전으로 교체 가능
+    targetRevision: 55.5.0  # 안정 버전
     helm:
       values: |
+        fullnameOverride: prometheus
         prometheus:
           service:
             type: ClusterIP
@@ -33,7 +34,7 @@ spec:
     namespace: monitoring
   syncPolicy:
     automated:
-      selfHeal: true
       prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
