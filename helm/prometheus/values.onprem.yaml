@@ -1,0 +1,36 @@
+# 📦 helm/prometheus/values.onprem.yaml
+
+# -- 기본 설정
+fullnameOverride: prometheus
+
+# -- Prometheus 설정
+prometheus:
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: false
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: nfs-storage       # 네가 만든 StorageClass 이름
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 8Gi
+
+# -- Grafana 설정 (내장 Grafana를 외부 도메인으로 노출 X, 별도 chart에서 설치할 예정)
+grafana:
+  enabled: false
+
+# -- Istio Gateway 연결용 Service 설정
+service:
+  type: ClusterIP
+  annotations:
+    # Istio에서 VirtualService로 라우티드되도록 설정
+    networking.istio.io/exportTo: "*"
+  port: 80
+
+# -- TLS 및 Gateway 연동을 위한 서비스 네임 오버라이드
+serviceMonitor:
+  selfMonitor: true

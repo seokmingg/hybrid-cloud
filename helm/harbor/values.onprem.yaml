@@ -12,7 +12,9 @@ expose:
 
 externalURL: https://harbor.seokmin.com
 
-harborAdminPassword: "12345"
+harborAdminPassword:
+  existingSecret: harbor-admin
+  key: harbor-admin-password
 
 auth:
   mode: database_auth

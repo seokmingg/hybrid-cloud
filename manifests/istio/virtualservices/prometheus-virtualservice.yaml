@@ -10,13 +10,16 @@ spec:
   gateways:
     - test-gateway
   http:
+    # 1. HTTP → HTTPS 리다이렉트
     - match:
         - port: 80
       redirect:
         scheme: https
         redirectCode: 308
+
+    # 2. HTTPS 요청 처리
     - route:
         - destination:
-            host: prometheus.monitoring.svc.cluster.local
+            host: prometheus-prometheus.monitoring.svc.cluster.local
             port:
-              number: 80
+              number: 9090

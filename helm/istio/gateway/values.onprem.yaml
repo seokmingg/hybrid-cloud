@@ -1,3 +1,4 @@
+# helm/istio/gateway/values.onprem.yaml
 
 service:
   type: NodePort
@@ -10,3 +11,9 @@ service:
       port: 443
       targetPort: 8443
       nodePort: 30443
+
+    # ✅ Envoy metrics 수집용 포트 추가!
+    - name: http-envoy-prom
+      port: 15090
+      targetPort: 15090
+      protocol: TCP
