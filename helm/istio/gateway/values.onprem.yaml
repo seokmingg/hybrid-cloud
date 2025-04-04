@@ -1,5 +1,10 @@
 # helm/istio/gateway/values.onprem.yaml
 
+image:
+  registry: docker.io
+  repository: istio/proxyv2
+  tag: 1.25.1
+
 service:
   type: NodePort
   ports:
@@ -11,9 +16,29 @@ service:
       port: 443
       targetPort: 8443
       nodePort: 30443
-
-    # ✅ Envoy metrics 수집용 포트 추가!
     - name: http-envoy-prom
       port: 15090
       targetPort: 15090
       protocol: TCP
+
+
+
+
+
+#service:
+#  type: NodePort
+#  ports:
+#    - name: http2
+#      port: 80
+#      targetPort: 8080
+#      nodePort: 30080
+#    - name: https
+#      port: 443
+#      targetPort: 8443
+#      nodePort: 30443
+#
+#    # ✅ Envoy metrics 수집용 포트 추가!
+#    - name: http-envoy-prom
+#      port: 15090
+#      targetPort: 15090
+#      protocol: TCP
