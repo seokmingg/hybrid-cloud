@@ -9,12 +9,25 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/seokmingg/hybrid-cloud
-    targetRevision: main
-    path: helm/kube-prometheus-stack
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    targetRevision: 55.5.0  # 원하는 버전으로 교체 가능
     helm:
-      valueFiles:
-        - values.onprem.yaml
+      values: |
+        prometheus:
+          service:
+            type: ClusterIP
+          prometheusSpec:
+            storageSpec:
+              volumeClaimTemplate:
+                spec:
+                  storageClassName: nfs-storage
+                  accessModes: ["ReadWriteOnce"]
+                  resources:
+                    requests:
+                      storage: 8Gi
+        grafana:
+          enabled: false
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
