@@ -1,0 +1,24 @@
+# manifests/apps/05-argocd.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://argoproj.github.io/argo-helm
+    targetRevision: 5.51.6  # 원하는 Helm chart 버전
+    chart: argo-cd
+    helm:
+      valueFiles:
+        - ../../helm/argocd/values.onprem.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nfs-provisioner
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
+    targetRevision: 4.0.18   # 현재 최신 차트 버전 기준, 확인해서 바꿔도 됨
+    chart: nfs-subdir-external-provisioner
+    helm:
+      parameters:
+        - name: nfs.server
+          value: 192.168.0.100
+        - name: nfs.path
+          value: /mnt/nfs-storage
+        - name: storageClass.name
+          value: nfs-storage
+        - name: storageClass.defaultClass
+          value: "true"
+        - name: storageClass.reclaimPolicy
+          value: Retain
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nfs-provisioner
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
