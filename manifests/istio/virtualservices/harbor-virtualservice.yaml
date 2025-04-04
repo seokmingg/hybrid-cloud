@@ -12,11 +12,11 @@ spec:
     # 1. HTTP → HTTPS 리다이렉트
     - match:
         - port: 80
-      redirect:
-        scheme: https
-        redirectCode: 308
+#      redirect:
+#        scheme: https
+#        redirectCode: 308
 
-    # 2. /api, /service, /c 경로는 core로 전달
+    # 2. /api, /service, /c, /v2 경로는 core로 전달
     - match:
         - uri:
             prefix: /api/
@@ -33,7 +33,10 @@ spec:
               number: 80
 
     # 3. 그 외는 portal로 전달
-    - route:
+    - match:
+        - uri:
+            prefix: /
+      route:
         - destination:
             host: harbor-portal.harbor.svc.cluster.local
             port:

@@ -12,11 +12,19 @@ spec:
   http:
     - match:
         - port: 80
-      redirect:
-        scheme: https
-        redirectCode: 308
-    - route:
+#      redirect:
+#        scheme: https
+#        redirectCode: 308
+      route:
         - destination:
             host: grafana.monitoring.svc.cluster.local
             port:
               number: 80
+
+    - match:
+        - port: 443
+      route:
+        - destination:
+            host: grafana.monitoring.svc.cluster.local
+            port:
+              number: 443

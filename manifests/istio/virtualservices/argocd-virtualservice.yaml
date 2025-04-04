@@ -13,9 +13,15 @@ spec:
     # 1. HTTP 요청은 HTTPS로 리다이렉트
     - match:
         - port: 80
-      redirect:
-        scheme: https
-        redirectCode: 308
+#      redirect:
+#        scheme: https
+#        redirectCode: 308
+      route:
+        - destination:
+            host: argocd-server.argocd.svc.cluster.local
+            port:
+              number: 80
+
 
     # 2. HTTPS 요청은 ArgoCD 서버로 포워딩
     - match:
