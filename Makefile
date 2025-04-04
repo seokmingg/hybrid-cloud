@@ -2,7 +2,7 @@
 TERRAFORM_DIR = terraform/aws
 ANSIBLE_DIR = ansible
 HELM_DIR = helm
-
+MANIFEST_DIR = manifest
 .PHONY: all terraform ansible helm clean
 
 # 전체 실행: terraform → ansible → helm
