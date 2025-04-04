@@ -16,6 +16,7 @@ spec:
       values: |
         fullnameOverride: prometheus
         prometheus:
+          enabled: true  # 🔥 이게 빠져있었음!!
           service:
             type: ClusterIP
           prometheusSpec:
