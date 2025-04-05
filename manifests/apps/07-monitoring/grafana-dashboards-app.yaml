@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/seokmingg/hybrid-cloud
     targetRevision: main
-    path: manifests/monitoring
+    path: manifests/grafana
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
