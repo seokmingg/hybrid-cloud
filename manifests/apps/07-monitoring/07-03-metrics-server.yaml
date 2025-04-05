@@ -1,23 +1,24 @@
-# manifests/apps/07-monitoring/07-03-metrics-server.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: metrics-server
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "4"
 spec:
   project: default
   source:
-    repoURL: https://github.com/kubernetes-sigs/metrics-server
-    targetRevision: master
-    path: manifests/base
+    repoURL: https://kubernetes-sigs.github.io/metrics-server/
+    targetRevision: 3.11.0 # 버전은 최신 안정화 버전으로
+    chart: metrics-server
+    helm:
+      parameters:
+        - name: args[0]
+          value: --kubelet-insecure-tls
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
   syncPolicy:
     automated:
-      prune: true
       selfHeal: true
+      prune: true
     syncOptions:
       - CreateNamespace=true
