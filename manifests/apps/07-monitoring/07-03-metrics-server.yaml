@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://charts.bitnami.com/bitnami
     chart: metrics-server
-    targetRevision: 6.11.4
+    targetRevision: 6.11.3  # 최신 안정 버전으로 수정
     helm:
       values: |
         apiService:
