@@ -5,13 +5,19 @@ metadata:
   name: metrics-server
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "4"  # 프로메테우스보다 먼저 설치
+    argocd.argoproj.io/sync-wave: "4"
 spec:
   project: default
   source:
-    repoURL: https://github.com/kubernetes-sigs/metrics-server
-    targetRevision: master
-    path: manifests/base
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: metrics-server
+    targetRevision: 6.11.4
+    helm:
+      values: |
+        apiService:
+          create: true
+        args:
+          - --kubelet-insecure-tls=true
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
