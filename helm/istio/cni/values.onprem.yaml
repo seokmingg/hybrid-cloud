@@ -2,7 +2,7 @@ cni:
   enabled: true
   cniBinDir: /opt/cni/bin
   cniConfDir: /etc/cni/net.d
-  chained: false
+  chained: true
   logLevel: info
   excludeNamespaces:
     - istio-system
