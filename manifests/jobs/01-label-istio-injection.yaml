@@ -47,9 +47,7 @@ spec:
               kubectl label namespace monitoring istio-injection=enabled --overwrite  || true
 
               echo "🔄 Deployment 롤아웃 중..."
-              kubectl rollout restart deploy -n argocd argocd-server  || true
-              kubectl rollout restart deploy -n harbor harbor-core  || true
-              kubectl rollout restart deploy -n harbor portal  || true 
-              kubectl rollout restart deploy -n harbor jobservice  || true
-              kubectl rollout restart deploy -n monitoring grafana  || true
+              kubectl rollout restart deploy -n argocd   || true
+              kubectl rollout restart deploy -n harbor  || true
+              kubectl rollout restart deploy -n monitoring  || true
       restartPolicy: OnFailure
