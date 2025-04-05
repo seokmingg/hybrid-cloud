@@ -16,7 +16,7 @@ spec:
     namespace: job  # 실제 Job 리소스가 생성될 네임스페이스
   syncPolicy:
     automated:
-      selfHeal: true
-      prune: true
+      selfHeal: false
+      prune: false
     syncOptions:
       - CreateNamespace=true
