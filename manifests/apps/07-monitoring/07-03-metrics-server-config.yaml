@@ -1,0 +1,10 @@
+# manifests/apps/07-monitoring/07-03-metrics-server-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: metrics-server-config
+  namespace: kube-system
+data:
+  NODE_SELECTOR: "{}"
+  METRICS_RESOLUTION: "15s"
+  KUBELET_INSECURE_TLS: "true"
