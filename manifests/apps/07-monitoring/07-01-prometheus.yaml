@@ -11,12 +11,12 @@ spec:
   source:
     repoURL: https://prometheus-community.github.io/helm-charts
     chart: kube-prometheus-stack
-    targetRevision: 55.5.0  # 안정 버전
+    targetRevision: 58.1.0
     helm:
       values: |
         fullnameOverride: prometheus
         prometheus:
-          enabled: true  # 🔥 이게 빠져있었음!!
+          enabled: true
           service:
             type: ClusterIP
           prometheusSpec:
