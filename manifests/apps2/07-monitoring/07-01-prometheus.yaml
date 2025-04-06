@@ -12,8 +12,10 @@ spec:
     chart: kube-prometheus-stack
     targetRevision: 70.4.1
     helm:
-      skipCrds: false  # ✅ CRD 자동 설치
       values: |
+        crds:
+          create: true  # ✅ CRD 자동 설치
+
         fullnameOverride: prometheus
 
         prometheus:
@@ -31,8 +33,7 @@ spec:
                       storage: 8Gi
 
         grafana:
-          enabled: false  # 별도 설치
-
+          enabled: false  # 별도 설치 중이므로 꺼두기
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
