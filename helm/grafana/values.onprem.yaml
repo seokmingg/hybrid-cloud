@@ -1,4 +1,5 @@
 # 📦 helm/grafana/values.onprem.yaml
+
 replicaCount: 1
 
 admin:
@@ -29,3 +30,13 @@ resources:
   limits:
     memory: 512Mi
     cpu: 500m
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus-operated.monitoring.svc:9090
+        access: proxy
+        isDefault: true
