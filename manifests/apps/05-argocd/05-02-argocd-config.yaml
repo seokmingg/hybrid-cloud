@@ -1,0 +1,21 @@
+# manifests/apps/05-argocd/05-02-argocd-config.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-config
+  namespace: argocd
+spec:
+  project: infra
+  source:
+    repoURL: https://github.com/seokmingg/hybrid-cloud
+    targetRevision: main
+    path: manifests/argocd
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true

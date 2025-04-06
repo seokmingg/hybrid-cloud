@@ -1,4 +1,4 @@
-# manifests/apps/05-argocd.yaml
+# manifests/apps/05-01-argocd.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
