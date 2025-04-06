@@ -1,48 +1,48 @@
 # 📦 helm/grafana/values.onprem.yaml
 
-replicaCount: 1
-
-admin:
-  existingSecret: grafana-admin
-  userKey: admin-user
-  passwordKey: admin-password
-
-persistence:
-  enabled: true
-  storageClassName: nfs-storage
-  accessModes:
-    - ReadWriteOnce
-  size: 5Gi
-
-service:
-  type: ClusterIP
-  port: 80
-  annotations:
-    networking.istio.io/exportTo: "*"
-
-ingress:
-  enabled: false  # Istio Gateway 사용하므로 ingress는 끔
-
-resources:
-  requests:
-    memory: 256Mi
-    cpu: 250m
-  limits:
-    memory: 512Mi
-    cpu: 500m
-
-datasources:
-  datasources.yaml:
-    apiVersion: 1
-    datasources:
-      - name: Prometheus
-        type: prometheus
-        url: http://prometheus-operated.monitoring.svc:9090
-        access: proxy
-        isDefault: true
-
 grafana:
+  replicaCount: 1
+
   sidecar:
     alerts:
       enabled: true
-      label: grafana_alert  # 이 label을 기준으로 감지함
+      label: grafana_alert
+
+  admin:
+    existingSecret: grafana-admin
+    userKey: admin-user
+    passwordKey: admin-password
+
+  persistence:
+    enabled: true
+    storageClassName: nfs-storage
+    accessModes:
+      - ReadWriteOnce
+    size: 5Gi
+
+  service:
+    type: ClusterIP
+    port: 80
+    annotations:
+      networking.istio.io/exportTo: "*"
+
+  ingress:
+    enabled: false
+
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 250m
+    limits:
+      memory: 512Mi
+      cpu: 500m
+
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          url: http://prometheus-operated.monitoring.svc:9090
+          access: proxy
+          isDefault: true
