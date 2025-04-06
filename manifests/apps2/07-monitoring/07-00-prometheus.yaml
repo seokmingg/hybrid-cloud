@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus
+  namespace: argocd
+spec:
+  project: infra
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 25.1.0
+    chart: prometheus
+    helm:
+      values: |
+        alertmanager:
+          enabled: true
+        server:
+          persistentVolume:
+            size: 8Gi
+            storageClassName: nfs-storage
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true 
