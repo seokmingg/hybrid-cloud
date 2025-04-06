@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: service-app
+  namespace: argocd
+spec:
+  description: Application services project for user workloads
+  sourceRepos:
+    - https://github.com/seokmingg/hybrid-cloud
+    - https://github.com/seokmingg/test-service
+    - https://github.com/seokmingg/ai-service
+  destinations:
+    - namespace: test
+      server: https://kubernetes.default.svc
+    - namespace: ai
+      server: https://kubernetes.default.svc
+    - namespace: nginx
+      server: https://kubernetes.default.svc
+    - namespace: user-app
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: apps
+      kind: Deployment
+    - group: ""
+      kind: Service
+    - group: ""
+      kind: ConfigMap
+    - group: ""
+      kind: Secret

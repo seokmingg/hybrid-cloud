@@ -4,7 +4,7 @@ metadata:
   name: root-service
   namespace: argocd
 spec:
-  project: default
+  project: service-app
   source:
     repoURL: https://github.com/seokmingg/hybrid-cloud
     targetRevision: main
