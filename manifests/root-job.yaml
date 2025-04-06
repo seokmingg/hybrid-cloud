@@ -4,7 +4,7 @@ metadata:
   name: root-job
   namespace: argocd
 spec:
-  project: default
+  project: infra
   source:
     repoURL: https://github.com/seokmingg/hybrid-cloud
     targetRevision: main

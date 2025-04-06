@@ -1,4 +1,4 @@
-# manifests/argocd/nginx-app.yaml
+# manifests/services/nginx-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:

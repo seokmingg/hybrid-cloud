@@ -4,7 +4,7 @@ metadata:
   name: nfs-provisioner
   namespace: argocd
 spec:
-  project: default
+  project: infra
   source:
     repoURL: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
     targetRevision: 4.0.18   # 현재 최신 차트 버전 기준, 확인해서 바꿔도 됨
