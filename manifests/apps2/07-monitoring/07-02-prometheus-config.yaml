@@ -5,7 +5,7 @@ metadata:
   name: prometheus-config
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-wave: "999"
 spec:
   project: infra
   source:
