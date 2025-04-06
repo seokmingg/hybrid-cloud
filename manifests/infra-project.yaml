@@ -12,6 +12,8 @@ spec:
     - https://charts.jetstack.io # cert-manager
     - https://prometheus-community.github.io/helm-charts
     - https://kubernetes-sigs.github.io/metrics-server/
+    - https://github.com/prometheus-community/helm-charts
+
 
   destinations:
     - namespace: '*'
