@@ -112,7 +112,7 @@ alerting:
                 for: 1m
                 annotations:
                   description: CPU 사용률이 90% 초과 시 알림 발생
-                  summary: 노드CPU사용률{{ $labels.instance }}
+                  summary: "노드CPU사용률{{ `{{ $labels.instance }}` }}"
                 isPaused: false
                 notification_settings:
                   receiver: slack
@@ -220,7 +220,7 @@ alerting:
                 execErrState: Error
                 annotations:
                   description: 사용률 90%초과
-                  summary: '디스크 사용률 경고: {{ $labels.instance }} ({{ $labels.mountpoint }})'
+                  summary: "디스크 사용률 경고: {{ `{{ $labels.instance }}` }} ({{ `{{ $labels.mountpoint }}` }})"
                 isPaused: false
                 notification_settings:
                   receiver: slack
@@ -281,7 +281,7 @@ alerting:
                 for: 1m
                 annotations:
                   description: 메모리95%넘어가면알람
-                  summary: 노드메모리사용률{{ $labels.instance }}
+                  summary: "노드메모리사용률{{ `{{ $labels.instance }}` }}"
                 isPaused: false
                 notification_settings:
                   receiver: slack
