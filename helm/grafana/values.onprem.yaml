@@ -40,3 +40,9 @@ datasources:
         url: http://prometheus-operated.monitoring.svc:9090
         access: proxy
         isDefault: true
+
+grafana:
+  sidecar:
+    alerts:
+      enabled: true
+      label: grafana_alert  # 이 label을 기준으로 감지함
