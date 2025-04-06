@@ -23,13 +23,13 @@ prometheus:
 grafana:
   enabled: false
 
-# -- Istio Gateway 연결용 Service 설정
-service:
-  type: ClusterIP
-  annotations:
-    # Istio에서 VirtualService로 라우티드되도록 설정
-    networking.istio.io/exportTo: "*"
-  port: 80
+## -- Istio Gateway 연결용 Service 설정
+#service:
+#  type: ClusterIP
+#  annotations:
+#    # Istio에서 VirtualService로 라우티드되도록 설정
+#    networking.istio.io/exportTo: "*"
+#  port: 80
 
 # -- TLS 및 Gateway 연동을 위한 서비스 네임 오버라이드
 serviceMonitor:
