@@ -6,6 +6,8 @@ global:
       repository: istio/proxyv2
       tag: 1.25.1
       pullPolicy: Always
+  hub: docker.io/istio
+  tag: 1.25.1
 
 service:
   type: NodePort
