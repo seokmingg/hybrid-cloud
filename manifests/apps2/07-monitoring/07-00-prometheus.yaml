@@ -1,54 +1,54 @@
-DEPRECATED: This file is deprecated in favor of Prometheus Operator based installation
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: prometheus
-  namespace: argocd
-spec:
-  project: infra
-  source:
-    repoURL: https://prometheus-community.github.io/helm-charts
-    targetRevision: 27.8.0
-    chart: prometheus
-    helm:
-      values: |
-        alertmanager:
-          enabled: true
-        server:
-          persistentVolume:
-            size: 8Gi
-            storageClassName: nfs-storage
-          resources:
-            limits:
-              cpu: 500m
-              memory: 512Mi
-            requests:
-              cpu: 250m
-              memory: 256Mi
-        nodeExporter:
-          enabled: true
-          resources:
-            limits:
-              cpu: 200m
-              memory: 50Mi
-            requests:
-              cpu: 100m
-              memory: 30Mi
-        kubeStateMetrics:
-          enabled: true
-          resources:
-            limits:
-              cpu: 200m
-              memory: 256Mi
-            requests:
-              cpu: 100m
-              memory: 128Mi
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: monitoring
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true 
+#DEPRECATED: This file is deprecated in favor of Prometheus Operator based installation
+#apiVersion: argoproj.io/v1alpha1
+#kind: Application
+#metadata:
+#  name: prometheus
+#  namespace: argocd
+#spec:
+#  project: infra
+#  source:
+#    repoURL: https://prometheus-community.github.io/helm-charts
+#    targetRevision: 27.8.0
+#    chart: prometheus
+#    helm:
+#      values: |
+#        alertmanager:
+#          enabled: true
+#        server:
+#          persistentVolume:
+#            size: 8Gi
+#            storageClassName: nfs-storage
+#          resources:
+#            limits:
+#              cpu: 500m
+#              memory: 512Mi
+#            requests:
+#              cpu: 250m
+#              memory: 256Mi
+#        nodeExporter:
+#          enabled: true
+#          resources:
+#            limits:
+#              cpu: 200m
+#              memory: 50Mi
+#            requests:
+#              cpu: 100m
+#              memory: 30Mi
+#        kubeStateMetrics:
+#          enabled: true
+#          resources:
+#            limits:
+#              cpu: 200m
+#              memory: 256Mi
+#            requests:
+#              cpu: 100m
+#              memory: 128Mi
+#  destination:
+#    server: https://kubernetes.default.svc
+#    namespace: monitoring
+#  syncPolicy:
+#    automated:
+#      prune: true
+#      selfHeal: true
+#    syncOptions:
+#      - CreateNamespace=true

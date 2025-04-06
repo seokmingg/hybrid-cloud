@@ -1,24 +1,24 @@
-#apiVersion: networking.istio.io/v1beta1
-#kind: VirtualService
-#metadata:
-#  name: prometheus-vs
-#  namespace: istio-system
-#spec:
-#  hosts:
-#    - prometheust.seokmin.com
-#  gateways:
-#    - test-gateway
-#  http:
-#    # 1. HTTP 요청은 HTTPS로 리디렉션
-#    - match:
-#        - port: 80
-#      redirect:
-#        scheme: https
-#        redirectCode: 308
-#
-#    # 2. HTTPS 요청은 내부 서비스로 라우팅 (port는 생략해야 함)
-#    - route:
-#        - destination:
-#            host: prometheus-prometheus.monitoring.svc.cluster.local
-#            port:
-#              number: 9090
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: prometheus-vs
+  namespace: istio-system
+spec:
+  hosts:
+    - prometheust.seokmin.com
+  gateways:
+    - test-gateway
+  http:
+    # 1. HTTP 요청은 HTTPS로 리디렉션
+    - match:
+        - port: 80
+      redirect:
+        scheme: https
+        redirectCode: 308
+
+    # 2. HTTPS 요청은 내부 서비스로 라우팅 (port는 생략해야 함)
+    - route:
+        - destination:
+            host: prometheus-prometheus.monitoring.svc.cluster.local
+            port:
+              number: 9090
