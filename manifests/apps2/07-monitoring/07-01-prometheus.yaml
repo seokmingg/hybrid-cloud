@@ -12,7 +12,7 @@ spec:
     chart: kube-prometheus-stack
     targetRevision: 70.4.1
     helm:
-      skipCrds: true  # ✅ CRD는 별도로 설치되므로 이건 true
+      skipCrds: false  # CRD 설치를 위해 false로 변경
       values: |
         fullnameOverride: prometheus
 
