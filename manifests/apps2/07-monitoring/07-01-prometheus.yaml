@@ -12,10 +12,8 @@ spec:
     chart: kube-prometheus-stack
     targetRevision: 70.4.1
     helm:
+      skipCrds: false  # ✅ 이걸 써야 CRD가 자동 설치됨 (헬름의 기능)
       values: |
-        crds:
-          create: true  # ✅ CRD 자동 설치
-
         fullnameOverride: prometheus
 
         prometheus:
@@ -44,3 +42,4 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - Replace=true
+      - ApplyOutOfSyncOnly=false  # ✅ CRD 적용에 도움되는 옵션
