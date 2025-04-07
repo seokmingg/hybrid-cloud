@@ -49,5 +49,5 @@ spec:
               echo "🔄 Deployment 롤아웃 중..."
               kubectl rollout restart deploy -n argocd   || true
               kubectl rollout restart deploy -n harbor  || true
-              kubectl rollout restart deploy -n monitoring  || true
+              kubectl rollout restart deploy grafana -n monitoring  || true
       restartPolicy: OnFailure
