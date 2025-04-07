@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root-init1
+  namespace: argocd
+spec:
+  project: infra
+  source:
+    repoURL: https://github.com/seokmingg/hybrid-cloud
+    targetRevision: main
+    path: manifests/apps/apps-init1
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

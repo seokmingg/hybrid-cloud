@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: root-app
+  name: root-init2
   namespace: argocd
 spec:
   project: infra
   source:
     repoURL: https://github.com/seokmingg/hybrid-cloud
     targetRevision: main
-    path: manifests/apps
+    path: manifests/apps/apps-init2
     directory:
       recurse: true
   destination:
