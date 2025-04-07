@@ -44,7 +44,7 @@ spec:
               echo "👉 네임스페이스 라벨 추가 중..."
               kubectl label namespace argocd istio-injection=enabled --overwrite  || true
               kubectl label namespace harbor istio-injection=enabled --overwrite  || true
-              kubectl label namespace monitoring istio-injection=enabled --overwrite  || true
+              kubectl annotate deploy grafana sidecar.istio.io/inject="true" -n monitoring --overwrite || true
 
               echo "🔄 Deployment 롤아웃 중..."
               kubectl rollout restart deploy -n argocd   || true
