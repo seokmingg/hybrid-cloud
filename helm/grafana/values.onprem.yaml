@@ -2,11 +2,6 @@
 
 replicaCount: 1
 
-sidecar:
-  alerts:
-    enabled: true
-    label: grafana_alert
-
 admin:
   existingSecret: grafana-admin
   userKey: admin-user
