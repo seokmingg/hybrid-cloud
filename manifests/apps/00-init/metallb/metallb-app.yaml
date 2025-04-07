@@ -11,12 +11,8 @@ spec:
     targetRevision: 0.13.12
     helm:
       values: |
-        configInline:
-          address-pools:
-            - name: default
-              protocol: layer2
-              addresses:
-                - 192.168.0.200-192.168.0.210
+        controller:
+          tolerations: []
   destination:
     server: https://kubernetes.default.svc
     namespace: metallb-system
