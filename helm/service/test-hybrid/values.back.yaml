@@ -1,6 +1,3 @@
-frontend:
-  enabled: false
-
 backend:
   enabled: true
   image:
