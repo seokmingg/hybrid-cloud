@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/seokmingg/hybrid-cloud
     targetRevision: main
-    path: manifests/services
+    path: manifests/service-apps
     directory:
       recurse: true
   destination:
