@@ -1,9 +1,9 @@
-# manifests/istio/virtualservices/nginx-virtualservice.yaml
+# manifests/istio/virtualservices/test-hybrid-virtualservice.yaml
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: nginx-vs
-  namespace: istio-system
+  name: test-frontend-vs
+  namespace: test
 spec:
   hosts:
     - test.seokmin.com
@@ -17,6 +17,6 @@ spec:
         redirectCode: 308
     - route:
         - destination:
-            host: nginx.default.svc.cluster.local
+            host: test-hybrid-front.test.svc.cluster.local
             port:
               number: 80
