@@ -1,0 +1,9 @@
+frontend:
+  enabled: false
+
+backend:
+  enabled: true
+  image:
+    repository: harbor.seokmin.com/test/backend
+    tag: latest
+  replicaCount: 2

@@ -1,0 +1,21 @@
+{{- if .Values.backend.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-hybrid-back
+spec:
+  replicas: {{ .Values.backend.replicaCount }}
+  selector:
+    matchLabels:
+      app: test-hybrid-back
+  template:
+    metadata:
+      labels:
+        app: test-hybrid-back
+    spec:
+      containers:
+        - name: test-hybrid-back
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+          ports:
+            - containerPort: 3000
+{{- end }}

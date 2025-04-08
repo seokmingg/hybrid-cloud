@@ -1,0 +1,12 @@
+{{- if .Values.frontend.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-hybrid-front
+spec:
+  selector:
+    app: test-hybrid-front
+  ports:
+    - port: 80
+      targetPort: 80
+{{- end }}
