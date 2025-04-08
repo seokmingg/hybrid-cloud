@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: test-hybrid
+  namespace: argocd
+spec:
+  project: service-app
+  source:
+    repoURL: https://github.com/seokmingg/test-hybrid
+    targetRevision: main
+    path: helm/service/test-hybrid
+    helm:
+      valueFiles:
+#        - values.yaml   # ✅ 공통으로 프론트+백엔드 설정된 파일 사용
+        - values.front.yaml
+        - values.back.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: test
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
