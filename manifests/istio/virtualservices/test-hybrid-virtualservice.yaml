@@ -8,7 +8,7 @@ spec:
   hosts:
     - test.seokmin.com
   gateways:
-    - test-gateway
+    - istio-system/test-gateway
   http:
     - match:
         - port: 80
