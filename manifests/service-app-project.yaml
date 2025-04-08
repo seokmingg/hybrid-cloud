@@ -16,19 +16,36 @@ spec:
       server: https://kubernetes.default.svc
 
   clusterResourceWhitelist:
-    - group: apps
-      kind: Deployment
-    - group: ""
-      kind: Service
-    - group: ""
-      kind: ConfigMap
-    - group: ""
-      kind: Secret
-    - group: networking.istio.io
-      kind: VirtualService
-    - group: networking.istio.io
-      kind: Gateway
-    - group: security.istio.io
-      kind: RequestAuthentication
-    - group: security.istio.io
-      kind: AuthorizationPolicy
+    - group: '*'
+      kind: '*'
+
+
+#  clusterResourceWhitelist:
+#    - group: apps
+#      kind: Deployment
+#    - group: ""
+#      kind: Service
+#    - group: ""
+#      kind: ConfigMap
+#    - group: ""
+#      kind: Secret
+#    - group: networking.istio.io
+#      kind: VirtualService
+#    - group: networking.istio.io
+#      kind: Gateway
+#    - group: security.istio.io
+#      kind: RequestAuthentication
+#    - group: security.istio.io
+#      kind: AuthorizationPolicy
+#    - group: ""
+#      kind: PersistentVolumeClaim
+#    - group: networking.k8s.io
+#      kind: Ingress
+#    - group: rbac.authorization.k8s.io
+#      kind: Role
+#    - group: rbac.authorization.k8s.io
+#      kind: RoleBinding
+#    - group: autoscaling
+#      kind: HorizontalPodAutoscaler
+#    - group: external-secrets.io
+#      kind: ExternalSecret
