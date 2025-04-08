@@ -11,6 +11,8 @@ spec:
     targetRevision: 0.13.12
     helm:
       values: |
+        speaker:
+          hostNetwork: true  # 🔥 필수 설정
         controller:
           tolerations: []
   destination:
