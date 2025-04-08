@@ -1,30 +1,30 @@
-# manifests/istio/virtualservices/test-hybrid-virtualservice.yaml
-apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
-metadata:
-  name: test-hybrid-vs
-  namespace: test
-spec:
-  hosts:
-    - test.seokmin.com
-  gateways:
-    - istio-system/test-gateway
-  http:
-    - match:
-        - port: 80
-      redirect:
-        scheme: https
-        redirectCode: 308
-    - match:
-        - uri:
-            prefix: "/api"
-      route:
-        - destination:
-            host: test-hybrid-back.test.svc.cluster.local
-            port:
-              number: 3000
-    - route:
-        - destination:
-            host: test-hybrid-front.test.svc.cluster.local
-            port:
-              number: 80
+## manifests/istio/virtualservices/test-hybrid-virtualservice.yaml
+#apiVersion: networking.istio.io/v1beta1
+#kind: VirtualService
+#metadata:
+#  name: test-hybrid-vs
+#  namespace: test
+#spec:
+#  hosts:
+#    - test.seokmin.com
+#  gateways:
+#    - istio-system/test-gateway
+#  http:
+#    - match:
+#        - port: 80
+#      redirect:
+#        scheme: https
+#        redirectCode: 308
+#    - match:
+#        - uri:
+#            prefix: "/api"
+#      route:
+#        - destination:
+#            host: test-hybrid-back.test.svc.cluster.local
+#            port:
+#              number: 3000
+#    - route:
+#        - destination:
+#            host: test-hybrid-front.test.svc.cluster.local
+#            port:
+#              number: 80
