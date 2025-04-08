@@ -4,6 +4,8 @@ frontend:
     repository: harbor.seokmin.com/test/frontend
     tag: latest
   replicaCount: 2
+  imagePullSecrets:
+    - harbor-pull-secret
 
 backend:
   enabled: false

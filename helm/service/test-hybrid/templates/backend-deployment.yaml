@@ -13,6 +13,12 @@ spec:
       labels:
         app: test-hybrid-back
     spec:
+      {{- if .Values.backend.imagePullSecrets }}
+      imagePullSecrets:
+        {{- range .Values.backend.imagePullSecrets }}
+        - name: {{ . }}
+        {{- end }}
+      {{- end }}
       containers:
         - name: test-hybrid-back
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"

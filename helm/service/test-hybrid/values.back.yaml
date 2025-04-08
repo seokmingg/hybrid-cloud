@@ -7,3 +7,5 @@ backend:
     repository: harbor.seokmin.com/test/backend
     tag: latest
   replicaCount: 2
+  imagePullSecrets:
+    - harbor-pull-secret
