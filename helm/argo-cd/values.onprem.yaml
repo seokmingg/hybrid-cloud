@@ -5,15 +5,6 @@ global:
 server:
   ingress:
     enabled: false
-#    ingressClassName: istio
-#    annotations:
-#      kubernetes.io/ingress.class: istio
-#    hosts:
-#      - argocdt.seokmin.com
-#    tls:
-#      - secretName: wildcard-seokmin-com-tls
-#        hosts:
-#          - argocdt.seokmin.com
 
 configs:
   params:
@@ -21,6 +12,14 @@ configs:
 
   secret:
     createSecret: true
+
+  repositories:
+    test-hybrid:
+      url: https://github.com/seokmingg/test-hybrid
+      username: seokmingg
+      passwordSecret:
+        name: github-pat
+        key: password
 
 repoServer:
   autoscaling:
@@ -31,5 +30,6 @@ controller:
 
 redis:
   enabled: true
+
 dex:
   enabled: false
