@@ -6,7 +6,7 @@ metadata:
 spec:
   project: service-app
   source:
-    repoURL: https://github.com/seokmingg/test-hybrid
+    repoURL: https://github.com/seokmingg/hybrid-cloud
     targetRevision: main
     path: helm/service/test-hybrid
     helm:
