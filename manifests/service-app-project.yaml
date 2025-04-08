@@ -24,3 +24,11 @@ spec:
       kind: ConfigMap
     - group: ""
       kind: Secret
+    - group: networking.istio.io
+      kind: VirtualService
+    - group: networking.istio.io
+      kind: Gateway
+    - group: security.istio.io
+      kind: RequestAuthentication
+    - group: security.istio.io
+      kind: AuthorizationPolicy
