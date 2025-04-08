@@ -13,13 +13,6 @@ configs:
   secret:
     createSecret: true
 
-  repositories:
-    test-hybrid:
-      url: https://github.com/seokmingg/test-hybrid
-      username: seokmingg
-      passwordSecret:
-        name: github-pat
-        key: password
 
 repoServer:
   autoscaling:
