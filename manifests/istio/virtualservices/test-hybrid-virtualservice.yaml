@@ -20,3 +20,10 @@ spec:
             host: test-hybrid-front.test.svc.cluster.local
             port:
               number: 80
+
+
+    - route:
+        - destination:
+            host: test-hybrid-back.test.svc.cluster.local
+            port:
+              number: 80
