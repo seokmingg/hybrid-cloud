@@ -1,0 +1,58 @@
+{{- if .Values.backend.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-hybrid-back
+  namespace: test
+  labels:
+    app: test-hybrid-back
+spec:
+  replicas: {{ .Values.backend.replicaCount }}
+  selector:
+    matchLabels:
+      app: test-hybrid-back
+  template:
+    metadata:
+      labels:
+        app: test-hybrid-back
+        {{- if .Values.global.istio.enabled }}
+        istio-injection: enabled
+        {{- end }}
+    spec:
+      {{- if .Values.backend.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml .Values.backend.imagePullSecrets | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: test-hybrid-back
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.backend.env.PORT }}
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.backend.resources | nindent 12 }}
+          env:
+            {{- range $key, $value := .Values.backend.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+          {{- if .Values.backend.secrets }}
+          envFrom:
+            - secretRef:
+                name: test-hybrid-back-secrets
+          {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+{{- end }}

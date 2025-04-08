@@ -1,0 +1,58 @@
+{{- if .Values.frontend.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-hybrid-front
+  namespace: test
+  labels:
+    app: test-hybrid-front
+spec:
+  replicas: {{ .Values.frontend.replicaCount }}
+  selector:
+    matchLabels:
+      app: test-hybrid-front
+  template:
+    metadata:
+      labels:
+        app: test-hybrid-front
+        {{- if .Values.global.istio.enabled }}
+        istio-injection: enabled
+        {{- end }}
+    spec:
+      {{- if .Values.frontend.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml .Values.frontend.imagePullSecrets | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: test-hybrid-front
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+          imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.frontend.resources | nindent 12 }}
+          env:
+            {{- range $key, $value := .Values.frontend.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+          {{- if .Values.frontend.secrets }}
+          envFrom:
+            - secretRef:
+                name: test-hybrid-front-secrets
+          {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+{{- end }}

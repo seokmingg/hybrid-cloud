@@ -1,4 +1,17 @@
 apiVersion: v2
 name: test-hybrid
-version: 0.1.1
+version: 0.1.2
 description: Helm chart for frontend & backend test services
+dependencies:
+  - name: postgresql
+    version: "12.5.8"
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: postgresql.enabled
+  - name: redis
+    version: "17.3.14"
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: redis.enabled
+  - name: istio
+    version: "1.25.1"
+    repository: "https://istio-release.storage.googleapis.com/charts"
+    condition: istio.enabled 
