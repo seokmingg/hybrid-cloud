@@ -42,19 +42,19 @@ spec:
             port:
               number: 80
 ---
-apiVersion: security.istio.io/v1beta1
-kind: RequestAuthentication
-metadata:
-  name: jwt-auth
-  namespace: test
-spec:
-  selector:
-    matchLabels:
-      app: test-hybrid-back
-  jwtRules:
-    - issuer: "https://{{ .Values.global.domain }}"
-      jwksUri: "https://{{ .Values.global.domain }}/.well-known/jwks.json"
-      forwardOriginalToken: true
+{{/*apiVersion: security.istio.io/v1beta1*/}}
+{{/*kind: RequestAuthentication*/}}
+{{/*metadata:*/}}
+{{/*  name: jwt-auth*/}}
+{{/*  namespace: test*/}}
+{{/*spec:*/}}
+{{/*  selector:*/}}
+{{/*    matchLabels:*/}}
+{{/*      app: test-hybrid-back*/}}
+{{/*  jwtRules:*/}}
+{{/*    - issuer: "https://{{ .Values.global.domain }}"*/}}
+{{/*      jwksUri: "https://{{ .Values.global.domain }}/.well-known/jwks.json"*/}}
+{{/*      forwardOriginalToken: true*/}}
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
