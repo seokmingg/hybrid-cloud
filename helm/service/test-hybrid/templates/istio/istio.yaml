@@ -15,6 +15,15 @@ spec:
       redirect:
         scheme: https
         redirectCode: 308
+        # 2. Google OAuth 콜백 등 프론트 내부 API (Next.js에서 처리)
+    - match:
+        - uri:
+            prefix: "/api/auth"
+      route:
+        - destination:
+            host: test-hybrid-front.test.svc.cluster.local
+            port:
+              number: 80
     - match:
         - uri:
             prefix: "/api"
