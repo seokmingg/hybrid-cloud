@@ -14,15 +14,16 @@ spec:
     metadata:
       labels:
         app: postgres
+        sidecar.istio.io/inject: "false"  # 💡 사이드카 주입 비활성화
     spec:
       {{- if .Values.postgresql.nodeSelector }}
       nodeSelector:
-          {{- toYaml .Values.postgresql.nodeSelector | nindent 8 }}
+        {{- toYaml .Values.postgresql.nodeSelector | nindent 8 }}
       {{- end }}
 
       {{- if .Values.postgresql.tolerations }}
       tolerations:
-          {{- toYaml .Values.postgresql.tolerations | nindent 8 }}
+        {{- toYaml .Values.postgresql.tolerations | nindent 8 }}
       {{- end }}
       containers:
         - name: postgres
