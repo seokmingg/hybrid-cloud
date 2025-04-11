@@ -25,8 +25,8 @@ frontend:
     targetMemoryUtilizationPercentage: 80
   env:
     NEXT_PUBLIC_API_URL: https://www.test.seokmin.com
-  nodeSelector:
-    kubernetes.io/hostname: onprem-worker-1
+#  nodeSelector:
+#    kubernetes.io/hostname: onprem-worker-1
 
 backend:
   enabled: true
