@@ -71,6 +71,8 @@ postgresql-ha:
       limits:
         cpu: 500m
         memory: 1Gi
+    podLabels:
+      sidecar.istio.io/inject: "false"
 
   haproxy:
     resources:
@@ -80,6 +82,8 @@ postgresql-ha:
       limits:
         cpu: 200m
         memory: 256Mi
+    podLabels:
+      sidecar.istio.io/inject: "false"
 
   pgpool:
     resources:
@@ -89,6 +93,8 @@ postgresql-ha:
       limits:
         cpu: 200m
         memory: 256Mi
+    podLabels:
+      sidecar.istio.io/inject: "false"
 
   persistence:
     enabled: true
