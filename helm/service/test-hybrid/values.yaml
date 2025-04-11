@@ -39,10 +39,10 @@ backend:
   resources:
     requests:
       cpu: 200m
-      memory: 256Mi
+      memory: 128Mi
     limits:
-      cpu: 500m
-      memory: 512Mi
+      cpu: 400m
+      memory: 256Mi
   hpa:
     maxReplicas: 5
     targetCPUUtilizationPercentage: 80
