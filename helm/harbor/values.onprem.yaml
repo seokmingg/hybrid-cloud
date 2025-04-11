@@ -5,10 +5,10 @@ expose:
   tls:
     enabled: true
     secretName: wildcard-seokmin-com-tls
-    # 자동 인증서 발급은 사용하지 않음
     auto:
       enabled: false
       commonName: harbor.seokmin.com
+
 harbor:
   existingSecret: harbor-admin
   secretKey: harbor-admin-password
@@ -34,3 +34,12 @@ persistence:
       size: 1Gi
     trivy:
       size: 1Gi
+
+trivy:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 512Mi
