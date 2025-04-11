@@ -64,6 +64,8 @@ postgresql-ha:
 
   postgresql:
     existingSecret: test-hybrid-db-secrets
+    auth:
+      database: test   # ✅ 여기 추가!
     resources:
       requests:
         cpu: 250m
