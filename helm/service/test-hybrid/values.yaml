@@ -52,8 +52,8 @@ backend:
     targetMemoryUtilizationPercentage: 80
   env:
     NODE_ENV: production
-    FRONTEND_URL: https://www.test.seokmin.com
-    BACKEND_URL: https://www.test.seokmin.com
+    FRONTEND_URL: "https://www.test.seokmin.com"
+    BACKEND_URL: "https://www.test.seokmin.com"
   envFrom:
     - secretRef:
         name: test-hybrid-back-secrets
@@ -66,10 +66,7 @@ postgresql-ha:
 
   postgresql:
     existingSecret: test-hybrid-db-secrets
-    auth:
-      username: postgres
-      password: "ignored"   # <- 이 값은 existingSecret 사용 시 무시됨
-      database: test
+
     resources:
       requests:
         cpu: 250m
