@@ -20,7 +20,7 @@ frontend:
       cpu: 200m
       memory: 256Mi
   hpa:
-    maxReplicas: 3
+    maxReplicas: 2
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
   env:
@@ -44,7 +44,7 @@ backend:
       cpu: 400m
       memory: 256Mi
   hpa:
-    maxReplicas: 3
+    maxReplicas: 2
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
   env:
