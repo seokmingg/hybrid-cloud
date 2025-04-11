@@ -65,8 +65,8 @@ postgresql-ha:
   postgresql:
     existingSecret: test-hybrid-db-secrets
     auth:
-      username: dummy
-      password: dummy
+      username: postgres
+      password: "ignored"   # <- 이 값은 existingSecret 사용 시 무시됨
       database: test
     resources:
       requests:
