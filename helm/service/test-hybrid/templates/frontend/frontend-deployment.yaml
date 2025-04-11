@@ -26,23 +26,29 @@ spec:
       containers:
         - name: test-hybrid-front
           image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
-          imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.frontend.image.pullPolicy | default "IfNotPresent" }}
           ports:
             - name: http
               containerPort: 80
               protocol: TCP
           resources:
             {{- toYaml .Values.frontend.resources | nindent 12 }}
+
+          # env (단일 환경변수들)
+          {{- if .Values.frontend.env }}
           env:
             {{- range $key, $value := .Values.frontend.env }}
             - name: {{ $key }}
               value: {{ $value | quote }}
             {{- end }}
-          {{- if .Values.frontend.secrets }}
-          envFrom:
-            - secretRef:
-                name: test-hybrid-front-secrets
           {{- end }}
+
+          # envFrom (Secret 또는 ConfigMap)
+          {{- if .Values.frontend.envFrom }}
+          envFrom:
+            {{- toYaml .Values.frontend.envFrom | nindent 12 }}
+          {{- end }}
+
           livenessProbe:
             httpGet:
               path: /

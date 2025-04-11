@@ -24,23 +24,15 @@ frontend:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
   env:
-    NEXT_PUBLIC_API_URL: https://test.seokmin.com/api
-    NEXTAUTH_URL: https://test.seokmin.com
-  envFrom:
-    - secretRef:
-        name: test-hybrid-front-secrets
-  secretValues:
-    nextauthSecret: "your-nextauth-secret"  # 실제 배포 시 변경 필요
-    googleClientId: "your-google-client-id"  # 실제 배포 시 변경 필요
-    googleClientSecret: "your-google-client-secret"  # 실제 배포 시 변경 필요
-    kakaoClientId: "your-kakao-client-id"  # 실제 배포 시 변경 필요
-    kakaoClientSecret: "your-kakao-client-secret"  # 실제 배포 시 변경 필요
+    NEXT_PUBLIC_API_URL: https://www.test.seokmin.com
+
 
 backend:
   enabled: true
   image:
     repository: harbor.seokmin.com/test/backend
     tag: latest
+  port: 3000
   replicaCount: 2
   imagePullSecrets:
     - harbor-pull-secret
@@ -56,16 +48,11 @@ backend:
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
   env:
-    PORT: 3000
     NODE_ENV: production
-    POSTGRES_HOST: postgresql
-    POSTGRES_PORT: 5432
-    REDIS_HOST: redis
-    REDIS_PORT: 6379
   envFrom:
     - secretRef:
         name: test-hybrid-back-secrets
-    # AWS ESO로 관리되는 시크릿들은 여기에 추가
+
 
 postgresql:
   enabled: true
@@ -76,14 +63,11 @@ postgresql:
       - ReadWriteOnce
     size: 5Gi
   auth:
-    database: test
-    username: test
-    password: test123!@#
-
-redis:
-  enabled: true
-  auth:
-    password: redis123!@#
+    existingSecret: test-hybrid-db-secrets
+    secretKeys:
+      usernameKey: POSTGRES_USERNAME
+      passwordKey: POSTGRES_PASSWORD
+      databaseKey: POSTGRES_DBNAME
 
 istio:
   enabled: true 

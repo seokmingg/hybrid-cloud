@@ -1,33 +1,43 @@
 {{- if .Values.postgresql.enabled }}
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: postgresql
+  name: postgres
   namespace: test
 spec:
+  serviceName: postgres
   replicas: 1
   selector:
     matchLabels:
-      app: postgresql
+      app: postgres
   template:
     metadata:
       labels:
-        app: postgresql
+        app: postgres
     spec:
       containers:
-        - name: postgresql
+        - name: postgres
           image: postgres:15.5
           ports:
             - containerPort: 5432
           env:
             - name: POSTGRES_DB
-              value: {{ .Values.postgresql.auth.database }}
+              valueFrom:
+                secretKeyRef:
+                  name: test-hybrid-db-secrets
+                  key: POSTGRES_DBNAME
             - name: POSTGRES_USER
-              value: {{ .Values.postgresql.auth.username }}
+              valueFrom:
+                secretKeyRef:
+                  name: test-hybrid-db-secrets
+                  key: POSTGRES_USERNAME
             - name: POSTGRES_PASSWORD
-              value: {{ .Values.postgresql.auth.password }}
+              valueFrom:
+                secretKeyRef:
+                  name: test-hybrid-db-secrets
+                  key: POSTGRES_PASSWORD
           volumeMounts:
-            - name: postgresql-data
+            - name: postgres-data
               mountPath: /var/lib/postgresql/data
           resources:
             requests:
@@ -36,20 +46,28 @@ spec:
             limits:
               cpu: 500m
               memory: 512Mi
-      volumes:
-        - name: postgresql-data
-          persistentVolumeClaim:
-            claimName: postgresql-data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-data
+      spec:
+        accessModes:
+          {{- range .Values.postgresql.persistence.accessModes }}
+          - {{ . }}
+          {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.postgresql.persistence.size }}
+        storageClassName: {{ .Values.postgresql.persistence.storageClassName }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgresql
+  name: postgres
   namespace: test
 spec:
   selector:
-    app: postgresql
+    app: postgres
   ports:
     - port: 5432
       targetPort: 5432
-{{- end }} 
+{{- end }}

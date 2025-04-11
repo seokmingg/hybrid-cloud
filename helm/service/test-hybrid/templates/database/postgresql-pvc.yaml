@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: postgresql-data
+  name: postgres-data
   namespace: test
 spec:
   accessModes:
@@ -13,4 +13,4 @@ spec:
     requests:
       storage: {{ .Values.postgresql.persistence.size }}
   storageClassName: {{ .Values.postgresql.persistence.storageClassName }}
-{{- end }} 
+{{- end }}

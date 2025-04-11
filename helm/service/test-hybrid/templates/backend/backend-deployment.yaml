@@ -26,22 +26,23 @@ spec:
       containers:
         - name: test-hybrid-back
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
-          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy | default "IfNotPresent" }}
           ports:
             - name: http
-              containerPort: {{ .Values.backend.env.PORT }}
+              containerPort: {{ .Values.backend.port | default 3000 }}
               protocol: TCP
           resources:
             {{- toYaml .Values.backend.resources | nindent 12 }}
+          {{- if .Values.backend.env }}
           env:
             {{- range $key, $value := .Values.backend.env }}
             - name: {{ $key }}
               value: {{ $value | quote }}
             {{- end }}
-          {{- if .Values.backend.secrets }}
+          {{- end }}
+          {{- if .Values.backend.envFrom }}
           envFrom:
-            - secretRef:
-                name: test-hybrid-back-secrets
+            {{- toYaml .Values.backend.envFrom | nindent 12 }}
           {{- end }}
           livenessProbe:
             httpGet:

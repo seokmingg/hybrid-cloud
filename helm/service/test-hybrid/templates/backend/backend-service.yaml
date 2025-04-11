@@ -9,6 +9,6 @@ spec:
     app: test-hybrid-back
   ports:
     - name: http
-      port: {{ .Values.backend.env.PORT }}
-      targetPort: {{ .Values.backend.env.PORT }}
+      port: {{ .Values.backend.port | default 3000 }}
+      targetPort: {{ .Values.backend.port | default 3000 }}
 {{- end }}
