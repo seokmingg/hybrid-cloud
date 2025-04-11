@@ -52,7 +52,6 @@ backend:
     targetMemoryUtilizationPercentage: 80
   env:
     NODE_ENV: production
-    FRONTEND_URL: https://www.test.seokmin.com
   envFrom:
     - secretRef:
         name: test-hybrid-back-secrets
