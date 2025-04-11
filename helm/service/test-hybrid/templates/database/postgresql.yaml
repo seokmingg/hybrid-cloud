@@ -25,17 +25,17 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: test-hybrid-db-secrets
-                  key: POSTGRES_DBNAME
+                  key: POSTGRESQL_DATABASE
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
                   name: test-hybrid-db-secrets
-                  key: POSTGRES_USERNAME
+                  key: POSTGRESQL_USERNAME
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: test-hybrid-db-secrets
-                  key: POSTGRES_PASSWORD
+                  key: POSTGRESQL_PASSWORD
           volumeMounts:
             - name: postgres-data
               mountPath: /var/lib/postgresql/data

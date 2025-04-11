@@ -64,10 +64,7 @@ postgresql:
     size: 5Gi
   auth:
     existingSecret: test-hybrid-db-secrets
-    secretKeys:
-      usernameKey: POSTGRES_USERNAME
-      passwordKey: POSTGRES_PASSWORD
-      databaseKey: POSTGRES_DBNAME
+
 
 istio:
   enabled: true 
