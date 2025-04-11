@@ -64,7 +64,12 @@ postgresql:
     size: 5Gi
   auth:
     existingSecret: test-hybrid-db-secrets
-
+  nodeSelector:
+    kubernetes.io/hostname: onprem-master
+  tolerations:
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Exists"
+      effect: "NoSchedule"
 
 istio:
   enabled: true 
