@@ -28,7 +28,7 @@ spec:
       containers:
         - name: test-hybrid-front
           image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
-          imagePullPolicy: {{ .Values.frontend.image.pullPolicy | default "IfNotPresent" }}
+          imagePullPolicy: {{ .Values.frontend.image.pullPolicy | default "Always" }}
           ports:
             - name: http
               containerPort: 80
