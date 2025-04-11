@@ -21,7 +21,9 @@ spec:
     spec:
       {{- if .Values.backend.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml .Values.backend.imagePullSecrets | nindent 8 }}
+        {{- range .Values.backend.imagePullSecrets }}
+        - name: {{ . }}
+        {{- end }}
       {{- end }}
       containers:
         - name: test-hybrid-back
