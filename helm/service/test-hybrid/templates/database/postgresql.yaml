@@ -15,12 +15,15 @@ spec:
       labels:
         app: postgres
     spec:
+      {{- if .Values.postgresql.nodeSelector }}
       nodeSelector:
-        kubernetes.io/hostname: onprem-master
+          {{- toYaml .Values.postgresql.nodeSelector | nindent 8 }}
+      {{- end }}
+
+      {{- if .Values.postgresql.tolerations }}
       tolerations:
-        - key: "node-role.kubernetes.io/control-plane"
-          operator: "Exists"
-          effect: "NoSchedule"
+          {{- toYaml .Values.postgresql.tolerations | nindent 8 }}
+      {{- end }}
       containers:
         - name: postgres
           image: postgres:15.5
