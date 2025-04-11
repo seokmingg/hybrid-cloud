@@ -34,7 +34,7 @@ backend:
     repository: harbor.seokmin.com/test/backend
     tag: latest
   port: 3000
-  replicaCount: 2
+  replicaCount: 3
   imagePullSecrets:
     - harbor-pull-secret
   resources:
@@ -45,7 +45,7 @@ backend:
       cpu: 400m
       memory: 256Mi
   hpa:
-    maxReplicas: 2
+    maxReplicas: 3
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
   env:
