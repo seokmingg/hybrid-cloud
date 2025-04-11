@@ -1,6 +1,13 @@
 global:
   proxy:
     autoInject: enabled
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
   istioNamespace: istio-system
 
 meshConfig:
@@ -13,3 +20,12 @@ meshConfig:
     - "*"
   defaultDestinationRuleExportTo:
     - "*"
+
+pilot:
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
