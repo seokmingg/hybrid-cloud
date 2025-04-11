@@ -25,6 +25,10 @@ spec:
         - name: {{ . }}
         {{- end }}
       {{- end }}
+      {{- if .Values.frontend.nodeSelector }}
+      nodeSelector:
+        {{- toYaml .Values.frontend.nodeSelector | nindent 8 }}
+      {{- end }}
       containers:
         - name: test-hybrid-front
           image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
