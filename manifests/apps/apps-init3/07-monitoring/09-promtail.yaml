@@ -29,6 +29,15 @@ spec:
                   labels:
                     job: kubernetes-pods
                     __path__: /var/log/pods/*/*/*.log
+              relabel_configs:
+                - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
+                  target_label: app
+                - source_labels: [__meta_kubernetes_namespace]
+                  target_label: namespace
+                - source_labels: [__meta_kubernetes_pod_name]
+                  target_label: pod
+                - source_labels: [__meta_kubernetes_container_name]
+                  target_label: container
 
         extraVolumes:
           - name: pod-logs
