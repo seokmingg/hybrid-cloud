@@ -12,6 +12,8 @@ spec:
     repoURL: https://github.com/seokmingg/hybrid-cloud
     targetRevision: main
     path: helm/promtail
+    kustomize:
+      enableHelm: true   # ✅ 이거 추가!
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
