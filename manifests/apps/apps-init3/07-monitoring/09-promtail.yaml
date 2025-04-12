@@ -30,15 +30,30 @@ spec:
                     job: docker-logs
                     __path__: /var/lib/docker/containers/*/*.log
 
+            - job_name: kubernetes-pods
+              static_configs:
+                - targets:
+                    - localhost
+                  labels:
+                    job: kubernetes-pods
+                    __path__: /var/log/pods/*/*/*.log
+
         extraVolumes:
           - name: docker-logs
             hostPath:
               path: /var/lib/docker/containers
               type: Directory
+          - name: pod-logs
+            hostPath:
+              path: /var/log/pods
+              type: Directory
 
         extraVolumeMounts:
           - name: docker-logs
             mountPath: /var/lib/docker/containers
+            readOnly: true
+          - name: pod-logs
+            mountPath: /var/log/pods
             readOnly: true
   destination:
     server: https://kubernetes.default.svc
