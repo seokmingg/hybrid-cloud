@@ -21,6 +21,9 @@ spec:
             - ReadWriteOnce
           size: 10Gi
         
+        grafana-agent-operator:
+        enabled: false
+        
         grafana-agent:
           enabled: false
   destination:
