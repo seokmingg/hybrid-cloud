@@ -30,16 +30,7 @@ spec:
                       job: docker-logs
                       __path__: /var/lib/docker/containers/*/*.log
 
-        extraVolumes:
-          - name: docker-logs
-            hostPath:
-              path: /var/lib/docker/containers
-              type: Directory
 
-        extraVolumeMounts:
-          - name: docker-logs
-            mountPath: /var/lib/docker/containers
-            readOnly: true
 
   destination:
     server: https://kubernetes.default.svc
