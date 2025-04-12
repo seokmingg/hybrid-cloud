@@ -1,4 +1,4 @@
-# manifests/apps/09-promtail.yaml
+# manifests/apps/09-loki.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -9,40 +9,32 @@ metadata:
 spec:
   project: infra
   source:
-    repoURL: https://grafana.github.io/helm-charts   # Helm repo
-    chart: loki
-    targetRevision: 5.41.4                            # chart version (stable)
+    repoURL: https://grafana.github.io/helm-charts
+    chart: loki-distributed
+    targetRevision: 0.74.0
     helm:
       values: |
-        persistence:
+        singleBinary:
+          replicas: 1
+        write:
+          replicas: 1
+        read:
+          replicas: 1
+
+        loki:
+          auth_enabled: false
+
+        backend:
+          persistence:
+            enabled: true
+            size: 5Gi
+            storageClassName: nfs-storage
+
+        gateway:
           enabled: true
-          storageClassName: nfs-storage
-          accessModes:
-            - ReadWriteOnce
-          size: 5Gi
 
-        selfMonitoring:
-          enabled: false
-
-        monitoring:
-          selfMonitoring:
-            enabled: false
-          dashboards:
-            enabled: false
-          rules:
-            enabled: false
-          serviceMonitor:
-            enabled: false
-
-        grafana-agent-operator:
-          enabled: false
-
-        grafana-agent:
-          enabled: false
-        
         test:
           enabled: false
-
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
