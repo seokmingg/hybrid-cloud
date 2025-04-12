@@ -21,22 +21,26 @@ spec:
             pipeline_stages:
               - docker: {}
 
-          scrape_configs:
-            - job_name: docker-logs
-              static_configs:
-                - targets:
-                    - localhost
-                  labels:
-                    job: docker-logs
-                    __path__: /var/lib/docker/containers/*/*.log
+            extraScrapeConfigs:
+              - job_name: docker-logs
+                static_configs:
+                  - targets:
+                      - localhost
+                    labels:
+                      job: docker-logs
+                      __path__: /var/lib/docker/containers/*/*.log
 
-            - job_name: kubernetes-pods
-              static_configs:
-                - targets:
-                    - localhost
-                  labels:
-                    job: kubernetes-pods
-                    __path__: /var/log/pods/*/*/*.log
+        extraVolumes:
+          - name: docker-logs
+            hostPath:
+              path: /var/lib/docker/containers
+              type: Directory
+
+        extraVolumeMounts:
+          - name: docker-logs
+            mountPath: /var/lib/docker/containers
+            readOnly: true
+
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
