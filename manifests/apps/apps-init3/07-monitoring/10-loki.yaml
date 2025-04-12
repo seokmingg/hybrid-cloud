@@ -20,12 +20,26 @@ spec:
           accessModes:
             - ReadWriteOnce
           size: 5Gi
-        
+
+        selfMonitoring:
+          enabled: false
+
+        monitoring:
+          selfMonitoring:
+            enabled: false
+          dashboards:
+            enabled: false
+          rules:
+            enabled: false
+          serviceMonitor:
+            enabled: false
+
         grafana-agent-operator:
           enabled: false
-        
+
         grafana-agent:
           enabled: false
+
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
