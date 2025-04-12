@@ -1,4 +1,3 @@
-# manifests/apps/09-loki.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -16,8 +15,10 @@ spec:
       values: |
         singleBinary:
           replicas: 1
+
         write:
           replicas: 1
+
         read:
           replicas: 1
 
@@ -25,6 +26,7 @@ spec:
           auth_enabled: false
 
         backend:
+          enabled: true         # ⚠️ 반드시 필요!
           persistence:
             enabled: true
             size: 5Gi
