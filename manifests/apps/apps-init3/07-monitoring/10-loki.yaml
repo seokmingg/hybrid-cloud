@@ -25,12 +25,12 @@ spec:
         loki:
           auth_enabled: false
 
-        backend:
-          enabled: true         # ⚠️ 반드시 필요!
-          persistence:
+          backend:
             enabled: true
-            size: 5Gi
-            storageClassName: nfs-storage
+            persistence:
+              enabled: true
+              size: 5Gi
+              storageClassName: nfs-storage
 
         gateway:
           enabled: true
