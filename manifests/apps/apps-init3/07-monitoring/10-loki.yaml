@@ -16,21 +16,40 @@ spec:
         singleBinary:
           replicas: 1
 
-        write:
-          replicas: 1
+        loki:
+          auth_enabled: false
+
+        backend:
+          enabled: true
+          persistence:
+            enabled: true
+            size: 5Gi
+            storageClassName: nfs-storage
+
+        ingester:
+          persistence:
+            enabled: true
+            storageClassName: nfs-storage
+            size: 5Gi
+
+        compactor:
+          enabled: true
+          persistence:
+            enabled: true
+            storageClassName: nfs-storage
+            size: 5Gi
 
         read:
           replicas: 1
 
-        loki:
-          auth_enabled: false
+        write:
+          replicas: 1
 
-          backend:
-            enabled: true
-            persistence:
-              enabled: true
-              size: 5Gi
-              storageClassName: nfs-storage
+        queryFrontend:
+          replicas: 1
+
+        querier:
+          replicas: 1
 
         gateway:
           enabled: true
