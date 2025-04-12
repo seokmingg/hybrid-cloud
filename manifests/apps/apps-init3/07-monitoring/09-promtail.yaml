@@ -9,11 +9,17 @@ metadata:
 spec:
   project: infra
   source:
-    repoURL: https://github.com/seokmingg/hybrid-cloud
-    targetRevision: main
-    path: helm/promtail
-    kustomize:
-      enableHelm: true   # ✅ 이거 추가!
+    repoURL: https://grafana.github.io/helm-charts  # Helm repo!
+    chart: promtail                                 # chart name
+    targetRevision: 6.15.3                          # chart version
+    helm:
+      values: |
+        config:
+          clients:
+            - url: http://loki.monitoring.svc.cluster.local:3100/loki/api/v1/push
+          snippets:
+            pipeline_stages:
+              - docker: {}
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring

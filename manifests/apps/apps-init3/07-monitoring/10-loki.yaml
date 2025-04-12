@@ -9,11 +9,17 @@ metadata:
 spec:
   project: infra
   source:
-    repoURL: https://github.com/seokmingg/hybrid-cloud
-    targetRevision: main
-    path: helm/loki
-    kustomize:
-      enableHelm: true   # ✅ 이거 추가!
+    repoURL: https://grafana.github.io/helm-charts   # Helm repo
+    chart: loki
+    targetRevision: 5.41.4                            # chart version (stable)
+    helm:
+      values: |
+        persistence:
+          enabled: true
+          storageClassName: nfs-storage
+          accessModes:
+            - ReadWriteOnce
+          size: 10Gi
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
