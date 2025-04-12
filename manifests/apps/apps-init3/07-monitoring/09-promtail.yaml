@@ -21,7 +21,7 @@ spec:
             pipeline_stages:
               - docker: {}
 
-            extraScrapeConfigs:
+            extraScrapeConfigs: |
               - job_name: docker-logs
                 static_configs:
                   - targets:
