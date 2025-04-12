@@ -19,7 +19,7 @@ spec:
           storageClassName: nfs-storage
           accessModes:
             - ReadWriteOnce
-          size: 10Gi
+          size: 5Gi
         
         grafana-agent-operator:
           enabled: false
