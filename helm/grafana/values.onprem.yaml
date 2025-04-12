@@ -43,7 +43,7 @@ datasources:
 
       - name: Loki
         type: loki
-        url: http://loki-loki-distributed-gateway.monitoring.svc.cluster.local/loki/api/v1/push
+        url: http://loki-loki-distributed-gateway.monitoring.svc.cluster.local
         access: proxy
         isDefault: false
 
