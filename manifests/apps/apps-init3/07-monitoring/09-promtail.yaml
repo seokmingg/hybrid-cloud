@@ -16,27 +16,30 @@ spec:
         config:
           clients:
             - url: http://loki-loki-distributed-gateway.monitoring.svc.cluster.local
+
           snippets:
             pipeline_stages:
               - docker: {}
 
           scrape_configs:
-            - job_name: kubernetes-pods
+            - job_name: docker-logs
               static_configs:
                 - targets:
                     - localhost
                   labels:
-                    job: kubernetes-pods
-                    __path__: /var/log/pods/*/*/*.log
-              relabel_configs:
-                - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
-                  target_label: app
-                - source_labels: [__meta_kubernetes_namespace]
-                  target_label: namespace
-                - source_labels: [__meta_kubernetes_pod_name]
-                  target_label: pod
-                - source_labels: [__meta_kubernetes_container_name]
-                  target_label: container
+                    job: docker-logs
+                    __path__: /var/lib/docker/containers/*/*.log
+
+        extraVolumes:
+          - name: docker-logs
+            hostPath:
+              path: /var/lib/docker/containers
+              type: Directory
+
+        extraVolumeMounts:
+          - name: docker-logs
+            mountPath: /var/lib/docker/containers
+            readOnly: true
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
