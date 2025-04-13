@@ -1,5 +1,3 @@
-# 📦 helm/kube-prometheus-stack/values.onprem.yaml
-
 fullnameOverride: prometheus
 
 prometheus:
@@ -16,26 +14,129 @@ prometheus:
           resources:
             requests:
               storage: 8Gi
+    ruleSelectorNilUsesHelmValues: false
+    ruleSelector: {}
+    ruleNamespaceSelector: {}
+    additionalScrapeConfigs:
+      - job_name: 'kubernetes-nodes'
+        scheme: https
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        kubernetes_sd_configs:
+          - role: node
+        relabel_configs:
+          - action: labelmap
+            regex: __meta_kubernetes_node_label_(.+)
+          - target_label: __address__
+            replacement: kubernetes.default.svc:443
+          - source_labels: [__meta_kubernetes_node_name]
+            regex: (.+)
+            target_label: __metrics_path__
+            replacement: /api/v1/nodes/${1}/proxy/metrics
+      - job_name: 'kubernetes-cadvisor'
+        scheme: https
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        kubernetes_sd_configs:
+          - role: node
+        relabel_configs:
+          - action: labelmap
+            regex: __meta_kubernetes_node_label_(.+)
+          - target_label: __address__
+            replacement: kubernetes.default.svc:443
+          - source_labels: [__meta_kubernetes_node_name]
+            regex: (.+)
+            target_label: __metrics_path__
+            replacement: /api/v1/nodes/${1}/proxy/metrics/cadvisor
 
-# Alertmanager 설정 (Slack 알림 설정 추가)
 alertmanager:
+  enabled: true
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: nfs-storage
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 1Gi
+    resources:
+      requests:
+        memory: 200Mi
+        cpu: 100m
+      limits:
+        memory: 400Mi
+        cpu: 200m
   config:
     global:
       resolve_timeout: 5m
     route:
+      group_by: ['alertname', 'namespace']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 4h
       receiver: 'slack-notifications'
-      group_wait: 10s
-      group_interval: 30s
-      repeat_interval: 1h
+      routes:
+        - match:
+            alertname: Watchdog
+          receiver: 'null'
+        - match:
+            alertname: KubeControllerManagerDown
+          receiver: 'null'
+        - match:
+            alertname: KubeSchedulerDown
+          receiver: 'null'
+        - match:
+            alertname: KubeProxyDown
+          receiver: 'null'
+        - match:
+            alertname: etcdInsufficientMembers
+          receiver: 'null'
+        - match:
+            alertname: etcdMembersDown
+          receiver: 'null'
+        - match:
+            severity: critical
+          receiver: 'slack-notifications'
+          group_wait: 10s
+          group_interval: 1m
+          repeat_interval: 1h
+        - match:
+            severity: warning
+          receiver: 'slack-notifications'
+          group_wait: 30s
+          group_interval: 5m
+          repeat_interval: 4h
+    inhibit_rules:
+      - source_matchers:
+        - severity="critical"
+        target_matchers:
+        - severity=~"warning|info"
+        equal:
+        - namespace
+        - alertname
+      - source_matchers:
+        - severity="warning"
+        target_matchers:
+        - severity="info"
+        equal:
+        - namespace
+        - alertname
     receivers:
+      - name: 'null'
       - name: 'slack-notifications'
         slack_configs:
-          - channel: '#onprecluster'                     # 원하는 Slack 채널명으로 수정 가능
+          - channel: '#onprecluster'
             send_resolved: true
             username: 'alertmanager'
             icon_emoji: ':fire:'
             api_url: 'https://hooks.slack.com/services/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'
-
+            title: '{{ template "slack.default.title" . }}'
+            text: '{{ template "slack.default.text" . }}'
+            footer: '{{ template "slack.default.footer" . }}'
+            color: '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}'
 grafana:
   enabled: false
 
