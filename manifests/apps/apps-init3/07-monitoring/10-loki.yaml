@@ -29,26 +29,40 @@ spec:
         ingester:
           persistence:
             enabled: true
+            size: 10Gi
             storageClassName: nfs-storage
-            size: 5Gi
 
         compactor:
           enabled: true
           persistence:
             enabled: true
-            storageClassName: nfs-storage
             size: 5Gi
+            storageClassName: nfs-storage
+
+        distributor:
+          persistence:
+            enabled: true
+            size: 5Gi
+            storageClassName: nfs-storage
+
+        querier:
+          replicas: 1
+          persistence:
+            enabled: true
+            size: 5Gi
+            storageClassName: nfs-storage
+
+        queryFrontend:
+          replicas: 1
+          persistence:
+            enabled: true
+            size: 5Gi
+            storageClassName: nfs-storage
 
         read:
           replicas: 1
 
         write:
-          replicas: 1
-
-        queryFrontend:
-          replicas: 1
-
-        querier:
           replicas: 1
 
         gateway:
