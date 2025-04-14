@@ -1,0 +1,17 @@
+# calico-values.yaml
+installation:
+  enabled: true
+  kubernetesProvider: "kubeadm"
+  calicoNetwork:
+    ipPools:
+      - blockSize: 26
+        cidr: 10.244.0.0/16
+        encapsulation: VXLANCrossSubnet
+        natOutgoing: Enabled
+        nodeSelector: all()
+
+apiServer:
+  enabled: true
+
+typha:
+  enabled: false  # 노드 수가 적다면 비활성화해도 OK

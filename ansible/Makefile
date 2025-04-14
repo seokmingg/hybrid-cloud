@@ -3,7 +3,7 @@
      firewall
 
 # 전체 실행 (순차적으로 실행)
-all:  common nfs lvm docker install-k8s master-init worker-join cni
+all:  common nfs lvm docker install-k8s master-init worker-join
 
 # 사용자 계정 권한 설정
 accounts-role:
