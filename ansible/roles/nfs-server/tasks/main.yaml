@@ -7,7 +7,7 @@
 - name: Format the disk as ext4
   filesystem:
     fstype: ext4
-    dev: /dev/sdb
+    dev: /dev/nvme0n1
   ignore_errors: true  # 이미 포맷된 경우 무시
 
 - name: Create mount directory
@@ -21,7 +21,7 @@
 - name: Mount disk
   mount:
     path: /mnt/nfs-storage
-    src: /dev/sdb
+    src: /dev/nvme0n1
     fstype: ext4
     opts: defaults
     state: mounted
@@ -29,7 +29,7 @@
 - name: Add to /etc/fstab
   mount:
     path: /mnt/nfs-storage
-    src: /dev/sdb
+    src: /dev/nvme0n1
     fstype: ext4
     opts: defaults
     state: present
