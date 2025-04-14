@@ -1,7 +1,7 @@
 # calico-values.yaml
 installation:
   enabled: true
-  kubernetesProvider: "kubeadm"
+  kubernetesProvider: ""
   calicoNetwork:
     ipPools:
       - blockSize: 26
