@@ -15,12 +15,12 @@ frontend:
   resources:
     requests:
       cpu: 100m
-      memory: 128Mi
+      memory: 256Mi
     limits:
       cpu: 200m
       memory: 256Mi
   hpa:
-    maxReplicas: 2
+    maxReplicas: 4
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
   env:
@@ -36,18 +36,18 @@ backend:
     repository: harbor.seokmin.com/test/backend
     tag: latest
   port: 3000
-  replicaCount: 3
+  replicaCount: 2
   imagePullSecrets:
     - harbor-pull-secret
   resources:
     requests:
       cpu: 200m
-      memory: 128Mi
+      memory: 256Mi
     limits:
-      cpu: 400m
+      cpu: 200m
       memory: 256Mi
   hpa:
-    maxReplicas: 3
+    maxReplicas: 4
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
   env:
