@@ -7,7 +7,7 @@ frontend:
   enabled: true
   image:
     repository: harbor.seokmin.com/test/frontend
-    tag: latest
+    tag: 20250414-161406
   replicaCount: 2
   imagePullSecrets:
     - harbor-pull-secret
