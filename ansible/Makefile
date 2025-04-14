@@ -1,9 +1,9 @@
 .PHONY: all \
-    accounts-role common docker install-k8s master-init worker-join cni \
+    accounts-role common  nfs lvm docker install-k8s master-init worker-join cni \
      firewall
 
 # 전체 실행 (순차적으로 실행)
-all: accounts-role common docker install-k8s master-init worker-join cni  firewall
+all:  common nfs lvm docker install-k8s master-init worker-join cni
 
 # 사용자 계정 권한 설정
 accounts-role:
