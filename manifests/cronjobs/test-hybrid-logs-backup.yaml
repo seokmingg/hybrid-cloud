@@ -55,8 +55,8 @@ spec:
                      --data-urlencode 'query={app="test-hybrid-back"}' \
                      --data-urlencode start="${START}" \
                      --data-urlencode end="${END}" )
-                      
-                     echo "${RESULT}"    | jq '.' > /mnt/nfs-storage/test-hybrid-back-logs/${NOW_DATE}/log-${HOUR}.json
+                       echo "$RESULT" 
+                     echo "$RESULT"    | jq '.' > /mnt/nfs-storage/test-hybrid-back-logs/${NOW_DATE}/log-${HOUR}.json
                   
                   
                   
