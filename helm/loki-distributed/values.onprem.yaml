@@ -24,62 +24,54 @@ backend:
   persistence:
     enabled: true
     existingClaim: loki-shared
-    mountPath: /var/loki
+    # ❌ size, storageClassName 등 제거
 
 compactor:
   enabled: true
   persistence:
     enabled: true
     existingClaim: loki-shared
-    mountPath: /var/loki
-
-distributor:
-  persistence:
-    enabled: true
-    existingClaim: loki-shared
-    mountPath: /var/loki
 
 ingester:
   replicas: 1
   persistence:
     enabled: true
     existingClaim: loki-shared
-    mountPath: /var/loki
 
 querier:
   replicas: 1
   persistence:
     enabled: true
     existingClaim: loki-shared
-    mountPath: /var/loki
 
 queryFrontend:
   replicas: 1
   persistence:
     enabled: true
     existingClaim: loki-shared
-    mountPath: /var/loki
+
+distributor:
+  persistence:
+    enabled: true
+    existingClaim: loki-shared
 
 read:
   replicas: 1
   persistence:
     enabled: true
     existingClaim: loki-shared
-    mountPath: /var/loki
 
 write:
   replicas: 1
   persistence:
     enabled: true
     existingClaim: loki-shared
-    mountPath: /var/loki
 
 gateway:
   enabled: true
   persistence:
     enabled: true
     existingClaim: loki-shared
-    mountPath: /var/loki
 
 test:
   enabled: false
