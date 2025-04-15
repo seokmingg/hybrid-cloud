@@ -36,34 +36,53 @@ backend:
 compactor:
   enabled: true
   persistence:
-    enabled: false
+    enabled: true
+    storageClassName: nfs-storage
+    size: 10Gi
+    mountPath: /var/loki/compactor
   extraVolumes: []
   extraVolumeMounts: []
 
 distributor:
   enabled: true
+  persistence:
+    enabled: true
+    storageClassName: nfs-storage
+    size: 5Gi
+    mountPath: /var/loki/distributor
   extraVolumes: []
   extraVolumeMounts: []
 
 ingester:
   replicas: 1
   persistence:
-    enabled: false
+    enabled: true
+    storageClassName: nfs-storage
+    size: 20Gi
+    mountPath: /var/loki/ingester
   wal:
     enabled: true
-    dir: /var/loki/wal
+    dir: /var/loki/ingester/wal
   extraVolumes: []
   extraVolumeMounts: []
 
 querier:
   replicas: 1
   persistence:
-    enabled: false
+    enabled: true
+    storageClassName: nfs-storage
+    size: 10Gi
+    mountPath: /var/loki/querier
   extraVolumes: []
   extraVolumeMounts: []
 
 queryFrontend:
   replicas: 1
+  persistence:
+    enabled: true
+    storageClassName: nfs-storage
+    size: 5Gi
+    mountPath: /var/loki/query-frontend
   extraVolumes: []
   extraVolumeMounts: []
 
