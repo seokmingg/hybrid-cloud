@@ -3,7 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: test-hybrid-logs-backup-pvc
-  namespace: test
+  namespace: monitoring
 spec:
   accessModes:
     - ReadWriteMany
@@ -16,16 +16,16 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: test-hybrid-logs-backup
-  namespace: test
+  namespace: monitoring
 spec:
-  schedule: "*/5 * * * *"  # 일단 테스트용 5분마다
+  schedule: "*/5 * * * *"
   jobTemplate:
     spec:
       template:
         spec:
           containers:
             - name: curl-logger
-              image: bitnami/kubectl:latest
+              image: curlimages/curl:8.6.0  # curl + jq 포함
               command:
                 - /bin/sh
                 - -c
@@ -34,6 +34,8 @@ spec:
                   START="${NOW}T00:00:00Z"
                   END="${NOW}T23:59:59Z"
                   echo "[INFO] 쿼리 실행: ${START} ~ ${END}"
+
+                  mkdir -p /mnt/nfs-storage/test-hybrid-logs
 
                   curl -G http://loki-loki-distributed-query-frontend.monitoring.svc.cluster.local:3100/loki/api/v1/query_range \
                     --data-urlencode 'query={app="test-hybrid-back"}' \
