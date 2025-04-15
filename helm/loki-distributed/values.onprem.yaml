@@ -26,6 +26,16 @@ loki:
     storageClassName: nfs-storage
     size: 20Gi
 
+  # Override default volume mounts
+  volumes:
+    - name: data
+      persistentVolumeClaim:
+        claimName: loki-shared
+
+  volumeMounts:
+    - name: data
+      mountPath: /var/loki
+
 backend:
   enabled: true
 compactor:
@@ -37,51 +47,25 @@ distributor:
 ingester:
   replicas: 1
   persistence:
-    enabled: true
-    existingClaim: loki-shared
-    mountPath: /var/loki
-    storageClassName: nfs-storage
-    size: 20Gi
+    enabled: false
   wal:
     enabled: true
     dir: /var/loki/wal
 querier:
   replicas: 1
   persistence:
-    enabled: true
-    existingClaim: loki-shared
-    mountPath: /var/loki
-    storageClassName: nfs-storage
-    size: 20Gi
+    enabled: false
 queryFrontend:
   replicas: 1
 read:
   replicas: 1
   persistence:
-    enabled: true
-    existingClaim: loki-shared
-    mountPath: /var/loki
-    storageClassName: nfs-storage
-    size: 20Gi
+    enabled: false
 write:
   replicas: 1
   persistence:
-    enabled: true
-    existingClaim: loki-shared
-    mountPath: /var/loki
-    storageClassName: nfs-storage
-    size: 20Gi
+    enabled: false
 gateway:
   enabled: true
 test:
   enabled: false
-
-# Override default volume mounts
-volumes:
-  - name: data
-    persistentVolumeClaim:
-      claimName: loki-shared
-
-volumeMounts:
-  - name: data
-    mountPath: /var/loki
