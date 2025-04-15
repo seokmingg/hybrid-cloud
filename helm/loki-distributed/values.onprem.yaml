@@ -7,8 +7,7 @@ loki:
     replication_factor: 1
   storage:
     type: filesystem
-    filesystem:
-      directory: /var/loki
+    filesystem: {}
   schemaConfig:
     configs:
       - from: "2024-01-01"
@@ -19,42 +18,33 @@ loki:
           prefix: index_
           period: 24h
 
-  persistence:
-    enabled: true
-    existingClaim: loki-shared
-    mountPath: /var/loki
-    storageClassName: nfs-storage
-    size: 20Gi
-
-  # Override default volume mounts
-  volumes: []
-  volumeMounts: []
-
 backend:
   enabled: true
 
 compactor:
   enabled: true
+  statefulSet:
+    enabled: true
   persistence:
     enabled: true
     storageClassName: nfs-storage
     size: 10Gi
     mountPath: /var/loki/compactor
-  extraVolumes: []
-  extraVolumeMounts: []
 
 distributor:
   enabled: true
+  statefulSet:
+    enabled: true
   persistence:
     enabled: true
     storageClassName: nfs-storage
     size: 5Gi
     mountPath: /var/loki/distributor
-  extraVolumes: []
-  extraVolumeMounts: []
 
 ingester:
   replicas: 1
+  statefulSet:
+    enabled: true
   persistence:
     enabled: true
     storageClassName: nfs-storage
@@ -63,42 +53,46 @@ ingester:
   wal:
     enabled: true
     dir: /var/loki/ingester/wal
-  extraVolumes: []
-  extraVolumeMounts: []
 
 querier:
   replicas: 1
+  statefulSet:
+    enabled: true
   persistence:
     enabled: true
     storageClassName: nfs-storage
     size: 10Gi
     mountPath: /var/loki/querier
-  extraVolumes: []
-  extraVolumeMounts: []
 
 queryFrontend:
   replicas: 1
+  statefulSet:
+    enabled: true
   persistence:
     enabled: true
     storageClassName: nfs-storage
     size: 5Gi
     mountPath: /var/loki/query-frontend
-  extraVolumes: []
-  extraVolumeMounts: []
 
 read:
   replicas: 1
+  statefulSet:
+    enabled: true
   persistence:
-    enabled: false
-  extraVolumes: []
-  extraVolumeMounts: []
+    enabled: true
+    storageClassName: nfs-storage
+    size: 5Gi
+    mountPath: /var/loki/read
 
 write:
   replicas: 1
+  statefulSet:
+    enabled: true
   persistence:
-    enabled: false
-  extraVolumes: []
-  extraVolumeMounts: []
+    enabled: true
+    storageClassName: nfs-storage
+    size: 5Gi
+    mountPath: /var/loki/write
 
 gateway:
   enabled: true
