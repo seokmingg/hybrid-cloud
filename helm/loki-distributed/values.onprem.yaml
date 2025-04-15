@@ -19,15 +19,15 @@ loki:
           prefix: index_
           period: 24h
 
-# 🔧 모든 컴포넌트에 공통 PVC 사용
-persistence:
-  enabled: true
-  name: loki-shared
-  storageClassName: nfs-storage
-  accessModes:
-    - ReadWriteMany
-  size: 20Gi
-  mountPath: /var/loki
+  # ✅ 여기로 옮겨야 함
+  persistence:
+    enabled: true
+    name: loki-shared
+    storageClassName: nfs-storage
+    accessModes:
+      - ReadWriteMany
+    size: 20Gi
+    mountPath: /var/loki
 
 backend:
   enabled: true
