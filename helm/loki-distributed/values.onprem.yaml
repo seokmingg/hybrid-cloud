@@ -17,6 +17,9 @@ loki:
         index:
           prefix: index_
           period: 24h
+  table_manager:
+    retention_deletes_enabled: true
+    retention_period: 744h  # 31일
 
 backend:
   enabled: true
