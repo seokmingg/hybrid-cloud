@@ -27,23 +27,24 @@ loki:
     size: 20Gi
 
   # Override default volume mounts
-  volumes:
-    - name: data
-      persistentVolumeClaim:
-        claimName: loki-shared
-
-  volumeMounts:
-    - name: data
-      mountPath: /var/loki
+  volumes: []
+  volumeMounts: []
 
 backend:
   enabled: true
+
 compactor:
   enabled: true
   persistence:
     enabled: false
+  extraVolumes: []
+  extraVolumeMounts: []
+
 distributor:
   enabled: true
+  extraVolumes: []
+  extraVolumeMounts: []
+
 ingester:
   replicas: 1
   persistence:
@@ -51,49 +52,37 @@ ingester:
   wal:
     enabled: true
     dir: /var/loki/wal
-  extraVolumes:
-    - name: data
-      persistentVolumeClaim:
-        claimName: loki-shared
-  extraVolumeMounts:
-    - name: data
-      mountPath: /var/loki
+  extraVolumes: []
+  extraVolumeMounts: []
+
 querier:
   replicas: 1
   persistence:
     enabled: false
-  extraVolumes:
-    - name: data
-      persistentVolumeClaim:
-        claimName: loki-shared
-  extraVolumeMounts:
-    - name: data
-      mountPath: /var/loki
+  extraVolumes: []
+  extraVolumeMounts: []
+
 queryFrontend:
   replicas: 1
+  extraVolumes: []
+  extraVolumeMounts: []
+
 read:
   replicas: 1
   persistence:
     enabled: false
-  extraVolumes:
-    - name: data
-      persistentVolumeClaim:
-        claimName: loki-shared
-  extraVolumeMounts:
-    - name: data
-      mountPath: /var/loki
+  extraVolumes: []
+  extraVolumeMounts: []
+
 write:
   replicas: 1
   persistence:
     enabled: false
-  extraVolumes:
-    - name: data
-      persistentVolumeClaim:
-        claimName: loki-shared
-  extraVolumeMounts:
-    - name: data
-      mountPath: /var/loki
+  extraVolumes: []
+  extraVolumeMounts: []
+
 gateway:
   enabled: true
+
 test:
   enabled: false
