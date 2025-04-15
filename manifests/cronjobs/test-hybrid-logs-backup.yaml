@@ -45,7 +45,7 @@ spec:
                       --data-urlencode start="${START}" \
                       --data-urlencode end="${END}" \
                       --data-urlencode limit=10000 \
-                      | jq '.' > /mnt/nfs-storage/test-hybrid-logs/log-${NOW}.json || echo '{}' > /mnt/nfs-storage/test-hybrid-logs/log-${NOW}.json
+                      | jq 
 
                     echo "[DONE] 로그 저장 완료: log-${NOW}.json"
                   }
