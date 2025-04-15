@@ -23,6 +23,8 @@ loki:
     enabled: true
     existingClaim: loki-shared
     mountPath: /var/loki
+    storageClassName: nfs-storage
+    size: 20Gi
 
 backend:
   enabled: true
