@@ -44,7 +44,7 @@ spec:
                       --data-urlencode 'query={app="test-hybrid-back"}' \
                       --data-urlencode start="${START}" \
                       --data-urlencode end="${END}" \
-                      --data-urlencode limit=10000 )
+                      --data-urlencode limit=5000 )
                     echo "$RESPONSE" 
 
                     echo "[DONE] 로그 저장 완료: log-${NOW}.json"
