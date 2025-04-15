@@ -39,12 +39,8 @@ compactor:
 distributor:
   enabled: true
   statefulSet:
-    enabled: true
-  persistence:
-    enabled: true
-    storageClassName: nfs-storage
-    size: 5Gi
-    mountPath: /var/loki/distributor
+    enabled: false  # distributor는 보통 Deployment로 사용되므로 false
+  # persistence 설정 삭제 (stateless 서비스임)
 
 ingester:
   replicas: 1
@@ -72,32 +68,20 @@ querier:
 queryFrontend:
   replicas: 1
   statefulSet:
-    enabled: true
-  persistence:
-    enabled: true
-    storageClassName: nfs-storage
-    size: 5Gi
-    mountPath: /var/loki/query-frontend
+    enabled: false  # Deployment로 배포
+  # persistence 설정 삭제 (stateless 서비스임)
 
 read:
   replicas: 1
   statefulSet:
-    enabled: true
-  persistence:
-    enabled: true
-    storageClassName: nfs-storage
-    size: 5Gi
-    mountPath: /var/loki/read
+    enabled: false  # Deployment로 배포
+  # persistence 설정 삭제 (stateless 서비스임)
 
 write:
   replicas: 1
   statefulSet:
-    enabled: true
-  persistence:
-    enabled: true
-    storageClassName: nfs-storage
-    size: 5Gi
-    mountPath: /var/loki/write
+    enabled: false  # Deployment로 배포
+  # persistence 설정 삭제 (stateless 서비스임)
 
 gateway:
   enabled: true
