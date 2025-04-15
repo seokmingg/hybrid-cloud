@@ -3,11 +3,14 @@ singleBinary:
 
 loki:
   auth_enabled: false
+
   commonConfig:
     replication_factor: 1
+
   storage:
     type: filesystem
     filesystem: {}
+
   schemaConfig:
     configs:
       - from: "2024-01-01"
@@ -18,14 +21,45 @@ loki:
           prefix: index_
           period: 24h
 
+  structuredConfig:
+    auth_enabled: false
+
+    server:
+      http_listen_port: 3100
+
+    common:
+      replication_factor: 1
+
+    schema_config:
+      configs:
+        - from: "2024-01-01"
+          store: boltdb-shipper
+          object_store: filesystem
+          schema: v11
+          index:
+            prefix: index_
+            period: 24h
+
+    storage_config:
+      filesystem:
+        directory: /var/loki/chunks
+
+    compactor:
+      working_directory: /var/loki/compactor
+      shared_store: filesystem
+
+    limits_config:
+      retention_period: 744h  # 로그 보관기간 31일 설정
+
+    table_manager:
+      retention_deletes_enabled: true
+      retention_period: 744h  # 로그 자동삭제 31일 설정
+
 tableManager:
   enabled: true
-  retention_deletes_enabled: true
-  retention_period: 744h  # 31일
 
 backend:
   enabled: true
-
 
 compactor:
   enabled: true
@@ -39,8 +73,7 @@ compactor:
 distributor:
   enabled: true
   statefulSet:
-    enabled: false  # distributor는 보통 Deployment로 사용되므로 false
-  # persistence 설정 삭제 (stateless 서비스임)
+    enabled: false  # stateless 서비스라 persistence 없음
 
 ingester:
   replicas: 1
@@ -50,6 +83,9 @@ ingester:
       - name: data
         storageClass: nfs-storage
         size: 20Gi
+  wal:
+    enabled: true
+    dir: /var/loki/ingester/wal
 
 querier:
   replicas: 1
@@ -63,20 +99,17 @@ querier:
 queryFrontend:
   replicas: 1
   statefulSet:
-    enabled: false  # Deployment로 배포
-  # persistence 설정 삭제 (stateless 서비스임)
+    enabled: false  # stateless 서비스라 persistence 없음
 
 read:
   replicas: 1
   statefulSet:
-    enabled: false  # Deployment로 배포
-  # persistence 설정 삭제 (stateless 서비스임)
+    enabled: false  # stateless 서비스라 persistence 없음
 
 write:
   replicas: 1
   statefulSet:
-    enabled: false  # Deployment로 배포
-  # persistence 설정 삭제 (stateless 서비스임)
+    enabled: false  # stateless 서비스라 persistence 없음
 
 gateway:
   enabled: true
