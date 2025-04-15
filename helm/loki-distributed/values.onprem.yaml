@@ -31,37 +31,27 @@ backend:
 compactor:
   enabled: true
   persistence:
-    enabled: true
-    existingClaim: loki-shared
-    mountPath: /var/loki
+    enabled: false
 distributor:
   enabled: true
 ingester:
   replicas: 1
   persistence:
-    enabled: true
-    existingClaim: loki-shared
-    mountPath: /var/loki
+    enabled: false
 querier:
   replicas: 1
   persistence:
-    enabled: true
-    existingClaim: loki-shared
-    mountPath: /var/loki
+    enabled: false
 queryFrontend:
   replicas: 1
 read:
   replicas: 1
   persistence:
-    enabled: true
-    existingClaim: loki-shared
-    mountPath: /var/loki
+    enabled: false
 write:
   replicas: 1
   persistence:
-    enabled: true
-    existingClaim: loki-shared
-    mountPath: /var/loki
+    enabled: false
 gateway:
   enabled: true
 test:
