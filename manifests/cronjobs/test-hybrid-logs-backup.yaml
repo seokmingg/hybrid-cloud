@@ -51,11 +51,14 @@ spec:
                     echo "[INFO] 쿼리 실행: ${START} ~ ${END}"
                     mkdir -p /mnt/nfs-storage/test-hybrid-back-logs/${NOW_DATE}
                   
-                    curl -G http://loki-loki-distributed-query-frontend.monitoring.svc.cluster.local:3100/loki/api/v1/query_range \
+                    RESULT=$(curl -G http://loki-loki-distributed-query-frontend.monitoring.svc.cluster.local:3100/loki/api/v1/query_range \
                      --data-urlencode 'query={app="test-hybrid-back"}' \
                      --data-urlencode start="${START}" \
-                     --data-urlencode end="${END}" \
-                     | jq '.' > /mnt/nfs-storage/test-hybrid-back-logs/${NOW_DATE}/log-${HOUR}.json
+                     --data-urlencode end="${END}" )
+                      
+                     echo "$RESULT"    | jq '.' > /mnt/nfs-storage/test-hybrid-back-logs/${NOW_DATE}/log-${HOUR}.json
+                  
+                  
                   
                     echo "[DONE] 로그 저장 완료: log-${HOUR}.json"
   
