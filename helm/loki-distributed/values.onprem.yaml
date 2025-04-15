@@ -75,3 +75,13 @@ gateway:
   enabled: true
 test:
   enabled: false
+
+# Override default volume mounts
+volumes:
+  - name: data
+    persistentVolumeClaim:
+      claimName: loki-shared
+
+volumeMounts:
+  - name: data
+    mountPath: /var/loki
