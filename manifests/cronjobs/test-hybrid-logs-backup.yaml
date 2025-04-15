@@ -25,7 +25,7 @@ spec:
         spec:
           containers:
             - name: curl-logger
-              image: curlimages/curl:8.6.0  # curl + jq 포함
+              image:  alpine:latest
               command:
                 - /bin/sh
                 - -c
