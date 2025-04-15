@@ -28,8 +28,6 @@ backend:
 
 compactor:
   enabled: true
-  statefulSet:
-    enabled: true
   persistence:
     enabled: true
     storageClassName: nfs-storage
@@ -44,12 +42,10 @@ distributor:
 
 ingester:
   replicas: 1
-  statefulSet:
-    enabled: true
   persistence:
     enabled: true
     storageClassName: nfs-storage
-    size: 20Gi
+    size: 20Gi          # ← 정확한 위치
     mountPath: /var/loki/ingester
   wal:
     enabled: true
@@ -57,8 +53,6 @@ ingester:
 
 querier:
   replicas: 1
-  statefulSet:
-    enabled: true
   persistence:
     enabled: true
     storageClassName: nfs-storage
