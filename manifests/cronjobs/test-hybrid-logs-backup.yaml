@@ -19,6 +19,8 @@ metadata:
   namespace: monitoring
 spec:
   schedule: "*/5 * * * *"  # 테스트용. 실제 운용 시 0 0 * * * 로 변경
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
       template:
@@ -49,7 +51,7 @@ spec:
                   }
               volumeMounts:
                 - name: nfs
-                  mountPath: /mnt/nfs-storage/test-hybrid-logs
+                  mountPath: /mnt/nfs-storage
           restartPolicy: OnFailure
           volumes:
             - name: nfs
