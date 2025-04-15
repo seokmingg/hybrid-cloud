@@ -19,59 +19,28 @@ loki:
           prefix: index_
           period: 24h
 
+  persistence:
+    enabled: true
+    existingClaim: loki-shared
+    mountPath: /var/loki
+
 backend:
   enabled: true
-  persistence:
-    enabled: true
-    existingClaim: loki-shared
-    # ❌ size, storageClassName 등 제거
-
 compactor:
   enabled: true
-  persistence:
-    enabled: true
-    existingClaim: loki-shared
-
+distributor:
+  enabled: true
 ingester:
   replicas: 1
-  persistence:
-    enabled: true
-    existingClaim: loki-shared
-
 querier:
   replicas: 1
-  persistence:
-    enabled: true
-    existingClaim: loki-shared
-
 queryFrontend:
   replicas: 1
-  persistence:
-    enabled: true
-    existingClaim: loki-shared
-
-distributor:
-  persistence:
-    enabled: true
-    existingClaim: loki-shared
-
 read:
   replicas: 1
-  persistence:
-    enabled: true
-    existingClaim: loki-shared
-
 write:
   replicas: 1
-  persistence:
-    enabled: true
-    existingClaim: loki-shared
-
 gateway:
   enabled: true
-  persistence:
-    enabled: true
-    existingClaim: loki-shared
-
 test:
   enabled: false
