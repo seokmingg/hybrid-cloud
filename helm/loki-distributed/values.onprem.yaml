@@ -1,5 +1,5 @@
 singleBinary:
-  replicas: 1
+  enabled: false
 
 loki:
   auth_enabled: false
@@ -30,18 +30,38 @@ backend:
   enabled: true
 compactor:
   enabled: true
+  persistence:
+    enabled: true
+    existingClaim: loki-shared
+    mountPath: /var/loki
 distributor:
   enabled: true
 ingester:
   replicas: 1
+  persistence:
+    enabled: true
+    existingClaim: loki-shared
+    mountPath: /var/loki
 querier:
   replicas: 1
+  persistence:
+    enabled: true
+    existingClaim: loki-shared
+    mountPath: /var/loki
 queryFrontend:
   replicas: 1
 read:
   replicas: 1
+  persistence:
+    enabled: true
+    existingClaim: loki-shared
+    mountPath: /var/loki
 write:
   replicas: 1
+  persistence:
+    enabled: true
+    existingClaim: loki-shared
+    mountPath: /var/loki
 gateway:
   enabled: true
 test:
