@@ -18,7 +18,8 @@ metadata:
   name: test-hybrid-logs-backup
   namespace: monitoring
 spec:
-  schedule: "*/5 * * * *"  # 테스트용. 실제 운용 시 0 0 * * * 로 변경
+#  schedule: "0 * * * *"  # 매 정시마다 실행 (UTC 기준)
+  schedule: "*/5 * * * *"  # 매 정시마다 실행 (UTC 기준)
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 1
   jobTemplate:
@@ -32,21 +33,26 @@ spec:
                 - /bin/sh
                 - -c
                 - |
-                  apk add --no-cache curl jq && {
-                    NOW=$(date -u +%Y-%m-%d)
-                    START=$(date -u +"%Y-%m-%dT00:00:00Z")
-                    END=$(date -u +"%Y-%m-%dT23:59:59Z")
-                    echo "[INFO] 쿼리 실행: ${START} ~ ${END}"
+                  apk add --no-cache curl jq tzdata && {
+                    # 한국 시간 기준 현재 시각 (UTC+9)
+                    NOW_KST=$(date -u -d '+9 hour' +%Y-%m-%dT%H:00:00Z)
+                    ONE_HOUR_AGO=$(date -u -d '+8 hour' +%Y-%m-%dT%H:00:00Z)
 
-                    mkdir -p /mnt/nfs-storage/test-hybrid-back-logs
+                    # YYYY-MM-DD 기준 폴더 이름
+                    TODAY=$(date -u -d '+9 hour' +%Y-%m-%d)
+                    HOUR=$(date -u -d '+9 hour' +%H)
 
-                    RESPONSE=$(curl -G http://loki-loki-distributed-query-frontend.monitoring.svc.cluster.local:3100/loki/api/v1/query_range \
+                    echo "[INFO] 쿼리 실행: ${ONE_HOUR_AGO} ~ ${NOW_KST}"
+
+                    mkdir -p /mnt/nfs-storage/test-hybrid-back-logs/${TODAY}
+
+                    curl -G http://loki-loki-distributed-query-frontend.monitoring.svc.cluster.local:3100/loki/api/v1/query_range \
                       --data-urlencode 'query={app="test-hybrid-back"}' \
-                      --data-urlencode start="${START}" \
-                      --data-urlencode end="${END}" )
-                    echo "$RESPONSE" 
+                      --data-urlencode start="${ONE_HOUR_AGO}" \
+                      --data-urlencode end="${NOW_KST}" \
+                      | jq '.' > /mnt/nfs-storage/test-hybrid-back-logs/${TODAY}/log-${HOUR}.json
 
-                    echo "[DONE] 로그 저장 완료: log-${NOW}.json"
+                    echo "[DONE] 로그 저장 완료: log-${HOUR}.json"
                   }
               volumeMounts:
                 - name: nfs
