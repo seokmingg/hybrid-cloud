@@ -26,13 +26,15 @@ tableManager:
 backend:
   enabled: true
 
+
 compactor:
   enabled: true
   persistence:
     enabled: true
-    storageClassName: nfs-storage
-    size: 10Gi
-    mountPath: /var/loki/compactor
+    claims:
+      - name: data
+        storageClass: nfs-storage
+        size: 10Gi
 
 distributor:
   enabled: true
@@ -44,20 +46,19 @@ ingester:
   replicas: 1
   persistence:
     enabled: true
-    storageClassName: nfs-storage
-    size: 20Gi          # ← 정확한 위치
-    mountPath: /var/loki/ingester
-  wal:
-    enabled: true
-    dir: /var/loki/ingester/wal
+    claims:
+      - name: data
+        storageClass: nfs-storage
+        size: 20Gi
 
 querier:
   replicas: 1
   persistence:
     enabled: true
-    storageClassName: nfs-storage
-    size: 10Gi
-    mountPath: /var/loki/querier
+    claims:
+      - name: data
+        storageClass: nfs-storage
+        size: 10Gi
 
 queryFrontend:
   replicas: 1
