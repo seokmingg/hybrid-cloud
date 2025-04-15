@@ -22,93 +22,67 @@ loki:
           prefix: index_
           period: 24h
 
-backend:
-  enabled: true
-  persistence:
-    enabled: true
-    storageClassName: nfs-storage
-    accessModes:
-      - ReadWriteMany
-    size: 20Gi
-    mountPath: /var/loki
-
+# 각 컴포넌트가 동일한 PVC를 사용하도록 설정
 compactor:
   enabled: true
   persistence:
     enabled: true
-    storageClassName: nfs-storage
-    accessModes:
-      - ReadWriteMany
-    size: 20Gi
+    existingClaim: loki-shared
+    mountPath: /var/loki
+
+backend:
+  enabled: true
+  persistence:
+    enabled: true
+    existingClaim: loki-shared
     mountPath: /var/loki
 
 distributor:
   persistence:
     enabled: true
-    storageClassName: nfs-storage
-    accessModes:
-      - ReadWriteMany
-    size: 20Gi
+    existingClaim: loki-shared
     mountPath: /var/loki
 
 ingester:
   replicas: 1
   persistence:
     enabled: true
-    storageClassName: nfs-storage
-    accessModes:
-      - ReadWriteMany
-    size: 20Gi
+    existingClaim: loki-shared
     mountPath: /var/loki
 
 querier:
   replicas: 1
   persistence:
     enabled: true
-    storageClassName: nfs-storage
-    accessModes:
-      - ReadWriteMany
-    size: 20Gi
+    existingClaim: loki-shared
     mountPath: /var/loki
 
 queryFrontend:
   replicas: 1
   persistence:
     enabled: true
-    storageClassName: nfs-storage
-    accessModes:
-      - ReadWriteMany
-    size: 20Gi
+    existingClaim: loki-shared
     mountPath: /var/loki
 
 read:
   replicas: 1
   persistence:
     enabled: true
-    storageClassName: nfs-storage
-    accessModes:
-      - ReadWriteMany
-    size: 20Gi
+    existingClaim: loki-shared
     mountPath: /var/loki
 
 write:
   replicas: 1
   persistence:
     enabled: true
-    storageClassName: nfs-storage
-    accessModes:
-      - ReadWriteMany
-    size: 20Gi
+    existingClaim: loki-shared
     mountPath: /var/loki
 
 gateway:
   enabled: true
   persistence:
     enabled: true
-    storageClassName: nfs-storage
-    accessModes:
-      - ReadWriteMany
-    size: 20Gi
+    existingClaim: loki-shared
     mountPath: /var/loki
 
 test:
