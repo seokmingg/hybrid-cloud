@@ -32,8 +32,8 @@ spec:
                 - |
                   apk add --no-cache curl jq && {
                     NOW=$(date -u +%Y-%m-%d)
-                    START=$(date -u -d "${NOW} 00:00:00" +%s)
-                    END=$(date -u -d "${NOW} 23:59:59" +%s)
+                    START=$(date -u +"%Y-%m-%dT00:00:00Z")
+                    END=$(date -u +"%Y-%m-%dT23:59:59Z")
                     echo "[INFO] 쿼리 실행: ${START} ~ ${END}"
 
                     mkdir -p /mnt/nfs-storage/test-hybrid-logs
