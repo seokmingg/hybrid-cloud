@@ -39,14 +39,14 @@ spec:
                     
                     # UTC+9 = KST 적용
                     END_EPOCH=$((NOW_EPOCH + 9 * 3600))
-                    START_EPOCH=$((END_EPOCH - 3600))
+                    START_EPOCH=$((NOW_EPOCH - 3600))
                   
                     # 포맷된 시간 (UTC 기준의 KST 시각)
                     NOW_DATE=$(date -u -d "@$END_EPOCH" +%Y-%m-%d)
                     HOUR=$(date -u -d "@$END_EPOCH" +%H)
                   
                     START=$(date -u -d "@$START_EPOCH" +%Y-%m-%dT%H:00:00Z)
-                    END=$(date -u -d "@$END_EPOCH" +%Y-%m-%dT%H:00:00Z)
+                    END=$(date -u -d "@$NOW_EPOCH" +%Y-%m-%dT%H:00:00Z)
                   
                     echo "[INFO] 쿼리 실행: ${START} ~ ${END}"
                     mkdir -p /mnt/nfs-storage/test-hybrid-back-logs/${NOW_DATE}
