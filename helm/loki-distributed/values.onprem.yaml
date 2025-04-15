@@ -40,6 +40,8 @@ ingester:
     enabled: true
     existingClaim: loki-shared
     mountPath: /var/loki
+    storageClassName: nfs-storage
+    size: 20Gi
   wal:
     enabled: true
     dir: /var/loki/wal
@@ -49,6 +51,8 @@ querier:
     enabled: true
     existingClaim: loki-shared
     mountPath: /var/loki
+    storageClassName: nfs-storage
+    size: 20Gi
 queryFrontend:
   replicas: 1
 read:
@@ -57,12 +61,16 @@ read:
     enabled: true
     existingClaim: loki-shared
     mountPath: /var/loki
+    storageClassName: nfs-storage
+    size: 20Gi
 write:
   replicas: 1
   persistence:
     enabled: true
     existingClaim: loki-shared
     mountPath: /var/loki
+    storageClassName: nfs-storage
+    size: 20Gi
 gateway:
   enabled: true
 test:
