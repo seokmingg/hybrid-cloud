@@ -37,21 +37,32 @@ distributor:
 ingester:
   replicas: 1
   persistence:
-    enabled: false
+    enabled: true
+    existingClaim: loki-shared
+    mountPath: /var/loki
+  wal:
+    enabled: true
+    dir: /var/loki/wal
 querier:
   replicas: 1
   persistence:
-    enabled: false
+    enabled: true
+    existingClaim: loki-shared
+    mountPath: /var/loki
 queryFrontend:
   replicas: 1
 read:
   replicas: 1
   persistence:
-    enabled: false
+    enabled: true
+    existingClaim: loki-shared
+    mountPath: /var/loki
 write:
   replicas: 1
   persistence:
-    enabled: false
+    enabled: true
+    existingClaim: loki-shared
+    mountPath: /var/loki
 gateway:
   enabled: true
 test:
