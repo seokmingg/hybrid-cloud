@@ -3,7 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: test-hybrid-logs-backup-pvc
-  namespace: monitoring
+  namespace: test
 spec:
   accessModes:
     - ReadWriteMany
@@ -16,35 +16,37 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: test-hybrid-logs-backup
-  namespace: monitoring
+  namespace: test
 spec:
-  schedule: "*/5 * * * *"
+  schedule: "*/5 * * * *"  # 테스트용. 실제 운용 시 0 0 * * * 로 변경
   jobTemplate:
     spec:
       template:
         spec:
           containers:
             - name: curl-logger
-              image:  alpine:latest
+              image: alpine:latest
               command:
                 - /bin/sh
                 - -c
                 - |
-                  NOW=$(date -u +%Y-%m-%d)
-                  START="${NOW}T00:00:00Z"
-                  END="${NOW}T23:59:59Z"
-                  echo "[INFO] 쿼리 실행: ${START} ~ ${END}"
+                  apk add --no-cache curl jq && {
+                    NOW=$(date -u +%Y-%m-%d)
+                    START="${NOW}T00:00:00Z"
+                    END="${NOW}T23:59:59Z"
+                    echo "[INFO] 쿼리 실행: ${START} ~ ${END}"
 
-                  mkdir -p /mnt/nfs-storage/test-hybrid-logs
+                    mkdir -p /mnt/nfs-storage/test-hybrid-logs
 
-                  curl -G http://loki-loki-distributed-query-frontend.monitoring.svc.cluster.local:3100/loki/api/v1/query_range \
-                    --data-urlencode 'query={app="test-hybrid-back"}' \
-                    --data-urlencode start="${START}" \
-                    --data-urlencode end="${END}" \
-                    --data-urlencode limit=10000 \
-                    | jq '.' > /mnt/nfs-storage/test-hybrid-logs/log-${NOW}.json
+                    curl -G http://loki-loki-distributed-query-frontend.monitoring.svc.cluster.local:3100/loki/api/v1/query_range \
+                      --data-urlencode 'query={app="test-hybrid-back"}' \
+                      --data-urlencode start="${START}" \
+                      --data-urlencode end="${END}" \
+                      --data-urlencode limit=10000 \
+                      | jq '.' > /mnt/nfs-storage/test-hybrid-logs/log-${NOW}.json
 
-                  echo "[DONE] 로그 저장 완료: log-${NOW}.json"
+                    echo "[DONE] 로그 저장 완료: log-${NOW}.json"
+                  }
               volumeMounts:
                 - name: nfs
                   mountPath: /mnt/nfs-storage
