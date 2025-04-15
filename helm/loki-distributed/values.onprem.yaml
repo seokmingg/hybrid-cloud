@@ -24,32 +24,92 @@ loki:
 
 backend:
   enabled: true
+  persistence:
+    enabled: true
+    storageClassName: nfs-storage
+    accessModes:
+      - ReadWriteMany
+    size: 20Gi
+    mountPath: /var/loki
+
 compactor:
   enabled: true
-gateway:
-  enabled: true
+  persistence:
+    enabled: true
+    storageClassName: nfs-storage
+    accessModes:
+      - ReadWriteMany
+    size: 20Gi
+    mountPath: /var/loki
+
+distributor:
+  persistence:
+    enabled: true
+    storageClassName: nfs-storage
+    accessModes:
+      - ReadWriteMany
+    size: 20Gi
+    mountPath: /var/loki
+
+ingester:
+  replicas: 1
+  persistence:
+    enabled: true
+    storageClassName: nfs-storage
+    accessModes:
+      - ReadWriteMany
+    size: 20Gi
+    mountPath: /var/loki
+
+querier:
+  replicas: 1
+  persistence:
+    enabled: true
+    storageClassName: nfs-storage
+    accessModes:
+      - ReadWriteMany
+    size: 20Gi
+    mountPath: /var/loki
+
+queryFrontend:
+  replicas: 1
+  persistence:
+    enabled: true
+    storageClassName: nfs-storage
+    accessModes:
+      - ReadWriteMany
+    size: 20Gi
+    mountPath: /var/loki
 
 read:
   replicas: 1
+  persistence:
+    enabled: true
+    storageClassName: nfs-storage
+    accessModes:
+      - ReadWriteMany
+    size: 20Gi
+    mountPath: /var/loki
+
 write:
   replicas: 1
-querier:
-  replicas: 1
-queryFrontend:
-  replicas: 1
-ingester:
-  replicas: 1
+  persistence:
+    enabled: true
+    storageClassName: nfs-storage
+    accessModes:
+      - ReadWriteMany
+    size: 20Gi
+    mountPath: /var/loki
 
-# 🔧 모든 컴포넌트가 공통 PVC를 마운트
-persistence:
+gateway:
   enabled: true
-  storageClassName: nfs-storage
-  accessModes:
-    - ReadWriteMany
-  size: 20Gi
-  mountPath: /var/loki
-  name: loki-shared
-  subPath: "" # 필요하면 디렉토리 분리 가능
+  persistence:
+    enabled: true
+    storageClassName: nfs-storage
+    accessModes:
+      - ReadWriteMany
+    size: 20Gi
+    mountPath: /var/loki
 
 test:
   enabled: false
