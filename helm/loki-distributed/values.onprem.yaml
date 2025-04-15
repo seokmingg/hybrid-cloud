@@ -76,7 +76,7 @@ distributor:
     enabled: false  # stateless 서비스라 persistence 없음
 
 ingester:
-  replicas: 1
+  replicas: 2
   persistence:
     enabled: true
     claims:
@@ -88,7 +88,7 @@ ingester:
     dir: /var/loki/ingester/wal
 
 querier:
-  replicas: 1
+  replicas: 2
   persistence:
     enabled: true
     claims:
@@ -97,7 +97,7 @@ querier:
         size: 10Gi
 
 queryFrontend:
-  replicas: 1
+  replicas: 2
   statefulSet:
     enabled: false  # stateless 서비스라 persistence 없음
 
