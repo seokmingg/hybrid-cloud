@@ -11,9 +11,31 @@ spec:
     path: helm/service/test-hybrid
     helm:
       valueFiles:
-        - values.yaml   # ✅ 공통으로 프론트+백엔드 설정된 파일 사용
-#        - values.front.yaml
-#        - values.back.yaml
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: test
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: test-hybrid-canary   # ❗️ Stable과 다른 이름
+  namespace: argocd
+spec:
+  project: service-app
+  source:
+    repoURL: https://github.com/seokmingg/hybrid-cloud
+    targetRevision: main
+    path: helm/service/test-hybrid
+    helm:
+      releaseName: test-hybrid-canary   # ❗️ 헬름 릴리즈 이름도 달리 지정
+      valueFiles:
+        - values.yaml
+        - values-canary.yaml            # ❗️ Canary 전용 override 파일
   destination:
     server: https://kubernetes.default.svc
     namespace: test
