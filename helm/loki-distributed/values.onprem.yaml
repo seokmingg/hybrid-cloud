@@ -57,6 +57,24 @@ loki:
 tableManager:
   enabled: true
 
+  # Table Manager도 /var/loki-shared 디렉터리에 접근할 수 있도록
+  extraVolumes:
+    - name: shared-loki
+      persistentVolumeClaim:
+        claimName: loki-shared-pvc  # NFS PVC (RWM)
+
+  extraVolumeMounts:
+    - name: shared-loki
+      mountPath: /var/loki-shared
+
+  # 보안 설정
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    capabilities:
+      drop:
+        - ALL
+
 backend:
   enabled: true
 
