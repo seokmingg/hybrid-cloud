@@ -1,17 +1,13 @@
 # values-canary.yaml
-postgresql-ha:
-  enabled: false
-
-
 
 frontend:
   image:
-    tag: "20250414-new-canary"   # Canary용으로 빌드된 이미지 태그
+    tag: "20250414-161406"   # Canary용으로 빌드된 이미지 태그
   replicaCount: 1               # Canary는 보통 한두 개로 운영
   # 추가로 필요한 오버라이드가 있다면 기술
 
 backend:
   image:
-    tag: "20250414-new-canary"
+    tag: "20250414-160120"
   replicaCount: 1
 
