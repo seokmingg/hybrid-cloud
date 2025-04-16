@@ -132,7 +132,7 @@ alertmanager:
             send_resolved: true
             username: 'alertmanager'
             icon_emoji: ':fire:'
-            api_url: 'https://hooks.slack.com/services/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'
+            api_url: 'https://hooks.slack.com/services/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'
             title: '{{ template "slack.default.title" . }}'
             text: '{{ template "slack.default.text" . }}'
             footer: '{{ template "slack.default.footer" . }}'
