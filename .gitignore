@@ -1,6 +1,9 @@
 # IntelliJ 설정
 .idea/
 *.iml
+# macOS
+.DS_Store
+
 
 Makefile
 
