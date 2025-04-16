@@ -1,0 +1,11 @@
+apiVersion: v2
+name: test-hybrid-db
+version: 0.1.0
+description: “PostgreSQL‑HA for test‑hybrid 서비스 전용 차트”
+
+# Bitnami Helm 저장소를 미리 추가했다는 전제입니다.
+# $ helm repo add bitnami https://charts.bitnami.com/bitnami
+dependencies:
+  - name: postgresql-ha
+    version: 14.1.2
+    repository: https://charts.bitnami.com/bitnami

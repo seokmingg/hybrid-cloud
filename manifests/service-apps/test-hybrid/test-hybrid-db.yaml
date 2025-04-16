@@ -1,0 +1,22 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: test-hybrid-db
+  namespace: argocd
+spec:
+  project: service-app
+  source:
+    repoURL: https://github.com/seokmingg/hybrid-cloud
+    targetRevision: main
+    path: helm/service/test-hybrid/test-hybrid-db
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: test
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true

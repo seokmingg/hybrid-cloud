@@ -1,9 +1,0 @@
-apiVersion: v2
-name: test-hybrid
-version: 0.1.2
-description: Helm chart for frontend & backend test services
-
-dependencies:
-  - name: postgresql-ha
-    version: 14.1.2     # 최신 버전 확인 필요
-    repository: https://charts.bitnami.com/bitnami

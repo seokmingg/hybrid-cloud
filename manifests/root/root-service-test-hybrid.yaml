@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: root-service
+  name: root-service-test-hybrid
   namespace: argocd
 spec:
   project: service-app
   source:
     repoURL: https://github.com/seokmingg/hybrid-cloud
     targetRevision: main
-    path: manifests/service-apps
+    path: manifests/service-apps/test-hybrid
     directory:
       recurse: true
   destination:
