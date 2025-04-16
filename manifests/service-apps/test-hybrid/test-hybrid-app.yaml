@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/seokmingg/hybrid-cloud
     targetRevision: main
-    path: helm/service/test-hybrid
+    path: helm/service/test-hybrid/test-hybrid-app
     helm:
       valueFiles:
         - values.yaml
@@ -30,7 +30,7 @@ spec:
   source:
     repoURL: https://github.com/seokmingg/hybrid-cloud
     targetRevision: main
-    path: helm/service/test-hybrid
+    path: helm/service/test-hybrid/test-hybrid-app
     helm:
       releaseName: test-hybrid-canary   # ❗️ 헬름 릴리즈 이름도 달리 지정
       valueFiles:
