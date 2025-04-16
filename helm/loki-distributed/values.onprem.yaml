@@ -29,6 +29,7 @@ loki:
     common:
       replication_factor: 1
 
+    # [CHANGED] Loki가 /var/loki-shared/... 아래에 데이터를 쌓도록 경로 변경
     schema_config:
       configs:
         - from: "2024-01-01"
@@ -41,10 +42,10 @@ loki:
 
     storage_config:
       filesystem:
-        directory: /var/loki/chunks  # 모든 청크 파일 /var/loki/chunks
+        directory: /var/loki-shared/chunks  # <-- chunk 파일 경로 (방법 B)
 
     compactor:
-      working_directory: /var/loki/compactor  # compactor 워킹 디렉터리
+      working_directory: /var/loki-shared/compactor  # <-- compactor 작업 디렉터리 (방법 B)
       shared_store: filesystem
 
     limits_config:
@@ -66,18 +67,20 @@ backend:
 compactor:
   enabled: true
 
-  # [CHANGED] 자동 RWO PVC 생성을 끔.
+  # chart가 기본 RWO PVC 생성 안 하도록
   persistence:
     enabled: false
 
-  # [CHANGED] extraVolumes / extraVolumeMounts 로 공통 PVC 마운트
+  # "extraVolumes"로 loki-shared-pvc 마운트
   extraVolumes:
     - name: shared-loki
       persistentVolumeClaim:
-        claimName: loki-shared-pvc   # 위에서 만든 RWM PVC
+        claimName: loki-shared-pvc  # RWM PVC 이름 (사전에 생성)
+
+  # /var/loki-shared 에 마운트하여 충돌 방지
   extraVolumeMounts:
     - name: shared-loki
-      mountPath: /var/loki          # compactor가 /var/loki/compactor 사용
+      mountPath: /var/loki-shared
 
 ###############################################################################
 # distributor
@@ -94,22 +97,24 @@ ingester:
   replicas: 2
   maxUnavailable: 1
 
-  # [CHANGED] 자동 RWO PVC 생성을 끔.
+  # chart가 만드는 /var/loki 마운트(RWO PVC) 비활성화
   persistence:
     enabled: false
 
+  # [CHANGED] Ingester WAL 경로도 /var/loki-shared 로 변경
   wal:
     enabled: true
-    dir: /var/loki/ingester/wal  # -> /var/loki/ingester/wal
+    dir: /var/loki-shared/ingester/wal  # 방법 B
 
-  # [CHANGED] extraVolumes / extraVolumeMounts
+  # 공유 PVC 마운트
   extraVolumes:
     - name: shared-loki
       persistentVolumeClaim:
         claimName: loki-shared-pvc
+
   extraVolumeMounts:
     - name: shared-loki
-      mountPath: /var/loki
+      mountPath: /var/loki-shared
 
 ###############################################################################
 # querier
@@ -118,18 +123,17 @@ querier:
   replicas: 2
   maxUnavailable: 1
 
-  # [CHANGED] 자동 RWO PVC 생성을 끔.
   persistence:
     enabled: false
 
-  # [CHANGED]
   extraVolumes:
     - name: shared-loki
       persistentVolumeClaim:
         claimName: loki-shared-pvc
+
   extraVolumeMounts:
     - name: shared-loki
-      mountPath: /var/loki
+      mountPath: /var/loki-shared
 
 ###############################################################################
 # queryFrontend
@@ -139,7 +143,7 @@ queryFrontend:
   maxUnavailable: 1
   statefulSet:
     enabled: false  # 보통 stateless
-# 굳이 shared pvc 마운트 필요 없음
+  # 공유 PVC 굳이 필요 없다면 skip
 
 ###############################################################################
 # read / write
