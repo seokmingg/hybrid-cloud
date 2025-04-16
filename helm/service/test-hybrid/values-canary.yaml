@@ -1,4 +1,9 @@
 # values-canary.yaml
+postgresql-ha:
+  enabled: false
+
+
+
 frontend:
   image:
     tag: "20250414-new-canary"   # Canary용으로 빌드된 이미지 태그
@@ -10,5 +15,3 @@ backend:
     tag: "20250414-new-canary"
   replicaCount: 1
 
-postgresql-ha:
-  enabled: false
