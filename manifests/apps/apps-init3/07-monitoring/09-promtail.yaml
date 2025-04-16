@@ -21,14 +21,14 @@ spec:
             pipeline_stages:
               - docker: {}
 
-            extraScrapeConfigs: |
-              - job_name: docker-logs
-                static_configs:
-                  - targets:
-                      - localhost
-                    labels:
-                      job: docker-logs
-                      __path__: /var/lib/docker/containers/*/*.log
+#            extraScrapeConfigs: |
+#              - job_name: docker-logs
+#                static_configs:
+#                  - targets:
+#                      - localhost
+#                    labels:
+#                      job: docker-logs
+#                      __path__: /var/lib/docker/containers/*/*.log
 
 
 
