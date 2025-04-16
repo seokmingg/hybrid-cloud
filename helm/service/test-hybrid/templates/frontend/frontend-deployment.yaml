@@ -2,19 +2,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test-hybrid-front
+  name: {{ include "test-hybrid.frontendFullname" . }}
   namespace: test
   labels:
-    app: test-hybrid-front
+    app: {{ include "test-hybrid.frontendFullname" . }}
 spec:
   replicas: {{ .Values.frontend.replicaCount }}
   selector:
     matchLabels:
-      app: test-hybrid-front
+      app: {{ include "test-hybrid.frontendFullname" . }}
   template:
     metadata:
       labels:
-        app: test-hybrid-front
+        app: {{ include "test-hybrid.frontendFullname" . }}
         {{- if .Values.global.istio.enabled }}
         istio-injection: enabled
         {{- end }}

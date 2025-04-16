@@ -2,13 +2,13 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: test-hybrid-front
+  name: {{ include "test-hybrid.frontendFullname" . }}
   namespace: test
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: test-hybrid-front
+    name: {{ include "test-hybrid.frontendFullname" . }}
   minReplicas: {{ .Values.frontend.replicaCount }}
   maxReplicas: {{ .Values.frontend.hpa.maxReplicas }}
   metrics:
