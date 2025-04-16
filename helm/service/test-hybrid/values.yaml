@@ -24,8 +24,6 @@ frontend:
     targetMemoryUtilizationPercentage: 80
   env:
     NEXT_PUBLIC_API_URL: https://www.test.seokmin.com
-#  nodeSelector:
-#    kubernetes.io/hostname: onprem-worker-1
 
 backend:
   enabled: true
@@ -93,19 +91,3 @@ postgresql-ha:
   tolerations: []
 istio:
   enabled: true
-#postgresql:
-#  enabled: true
-#  persistence:
-#    enabled: true
-#    storageClassName: nfs-storage
-#    accessModes:
-#      - ReadWriteOnce
-#    size: 5Gi
-#  auth:
-#    existingSecret: test-hybrid-db-secrets
-#  nodeSelector:
-#    kubernetes.io/hostname: onprem-master
-#  tolerations:
-#    - key: "node-role.kubernetes.io/control-plane"
-#      operator: "Exists"
-#      effect: "NoSchedule"
