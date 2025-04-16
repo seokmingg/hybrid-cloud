@@ -23,7 +23,6 @@ loki:
 
   structuredConfig:
     auth_enabled: false
-
     server:
       http_listen_port: 3100
 
@@ -42,18 +41,18 @@ loki:
 
     storage_config:
       filesystem:
-        directory: /var/loki/chunks
+        directory: /var/loki/chunks  # 모든 청크 파일 /var/loki/chunks
 
     compactor:
-      working_directory: /var/loki/compactor
+      working_directory: /var/loki/compactor  # compactor 워킹 디렉터리
       shared_store: filesystem
 
     limits_config:
-      retention_period: 744h  # 로그 보관기간 31일 설정
+      retention_period: 744h  # 로그 31일 보관
 
     table_manager:
       retention_deletes_enabled: true
-      retention_period: 744h  # 로그 자동삭제 31일 설정
+      retention_period: 744h
 
 tableManager:
   enabled: true
@@ -61,59 +60,102 @@ tableManager:
 backend:
   enabled: true
 
+###############################################################################
+# compactor
+###############################################################################
 compactor:
   enabled: true
-  persistence:
-    enabled: true
-    claims:
-      - name: data
-        storageClass: nfs-storage
-        size: 10Gi
 
+  # [CHANGED] 자동 RWO PVC 생성을 끔.
+  persistence:
+    enabled: false
+
+  # [CHANGED] extraVolumes / extraVolumeMounts 로 공통 PVC 마운트
+  extraVolumes:
+    - name: shared-loki
+      persistentVolumeClaim:
+        claimName: loki-shared-pvc   # 위에서 만든 RWM PVC
+  extraVolumeMounts:
+    - name: shared-loki
+      mountPath: /var/loki          # compactor가 /var/loki/compactor 사용
+
+###############################################################################
+# distributor
+###############################################################################
 distributor:
   enabled: true
   statefulSet:
-    enabled: false  # stateless 서비스라 persistence 없음
+    enabled: false  # stateless
 
+###############################################################################
+# ingester
+###############################################################################
 ingester:
   replicas: 2
   maxUnavailable: 1
+
+  # [CHANGED] 자동 RWO PVC 생성을 끔.
   persistence:
-    enabled: true
-    claims:
-      - name: data
-        storageClass: nfs-storage
-        size: 20Gi
+    enabled: false
+
   wal:
     enabled: true
-    dir: /var/loki/ingester/wal
+    dir: /var/loki/ingester/wal  # -> /var/loki/ingester/wal
 
+  # [CHANGED] extraVolumes / extraVolumeMounts
+  extraVolumes:
+    - name: shared-loki
+      persistentVolumeClaim:
+        claimName: loki-shared-pvc
+  extraVolumeMounts:
+    - name: shared-loki
+      mountPath: /var/loki
+
+###############################################################################
+# querier
+###############################################################################
 querier:
   replicas: 2
   maxUnavailable: 1
-  persistence:
-    enabled: true
-    claims:
-      - name: data
-        storageClass: nfs-storage
-        size: 10Gi
 
+  # [CHANGED] 자동 RWO PVC 생성을 끔.
+  persistence:
+    enabled: false
+
+  # [CHANGED]
+  extraVolumes:
+    - name: shared-loki
+      persistentVolumeClaim:
+        claimName: loki-shared-pvc
+  extraVolumeMounts:
+    - name: shared-loki
+      mountPath: /var/loki
+
+###############################################################################
+# queryFrontend
+###############################################################################
 queryFrontend:
   replicas: 2
   maxUnavailable: 1
   statefulSet:
-    enabled: false  # stateless 서비스라 persistence 없음
+    enabled: false  # 보통 stateless
+# 굳이 shared pvc 마운트 필요 없음
 
+###############################################################################
+# read / write
+###############################################################################
 read:
   replicas: 1
   statefulSet:
-    enabled: false  # stateless 서비스라 persistence 없음
-
+    enabled: false
 write:
   replicas: 1
   statefulSet:
-    enabled: false  # stateless 서비스라 persistence 없음
+    enabled: false
 
+###############################################################################
+# gateway (ingress-like)
+###############################################################################
 gateway:
   enabled: true
 
