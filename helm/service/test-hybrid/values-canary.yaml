@@ -9,3 +9,6 @@ backend:
   image:
     tag: "20250414-new-canary"
   replicaCount: 1
+
+postgresql-ha:
+  enabled: false
