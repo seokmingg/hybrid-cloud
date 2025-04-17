@@ -7,5 +7,5 @@ frontend:
   # 추가로 필요한 오버라이드가 있다면 기술
 backend:
   image:
-    tag: "20250417-014058"
+    tag: "20250417-023152"
   replicaCount: 1
