@@ -1,0 +1,31 @@
+- name: etcdctl 디렉토리 생성
+  file:
+    path: /tmp/etcd-install
+    state: directory
+
+- name: etcd 릴리즈 다운로드
+  get_url:
+    url: "{{ etcd_download_url }}"
+    dest: /tmp/etcd-install/etcd.tar.gz
+    mode: '0644'
+
+- name: etcd 압축 해제
+  unarchive:
+    src: /tmp/etcd-install/etcd.tar.gz
+    dest: /tmp/etcd-install/
+    remote_src: yes
+
+- name: etcdctl 복사
+  copy:
+    src: "/tmp/etcd-install/etcd-{{ etcd_version }}-linux-amd64/etcdctl"
+    dest: /usr/local/bin/etcdctl
+    mode: '0755'
+    remote_src: true
+
+- name: 설치 확인
+  command: etcdctl version
+  register: etcdctl_version_output
+  changed_when: false
+
+- debug:
+    var: etcdctl_version_output.stdout_lines

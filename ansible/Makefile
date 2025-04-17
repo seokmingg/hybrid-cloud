@@ -1,5 +1,5 @@
 .PHONY: all \
-    accounts-role common  nfs lvm docker install-k8s master-init worker-join cni \
+    accounts-role common  nfs lvm docker install-k8s master-init worker-join etcd-install \
      firewall
 
 # 전체 실행 (순차적으로 실행)
@@ -36,6 +36,10 @@ master-init:
 # 워커 노드 조인
 worker-join:
 	ansible-playbook playbooks/k8s/worker-join.yaml -i inventory/hosts.ini
+
+etcd-install:
+	ansible-playbook playbooks/k8s/install-etcdctl.yaml -i inventory/hosts.ini
+
 
 # CNI 설치 (예: Calico)
 cni:

@@ -1,0 +1,5 @@
+- name: Install etcdctl on master nodes
+  hosts: onprem-master
+  become: true
+  roles:
+    - etcdctl
