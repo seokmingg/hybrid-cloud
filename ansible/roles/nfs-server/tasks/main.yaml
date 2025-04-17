@@ -37,7 +37,7 @@
 - name: Configure /etc/exports
   lineinfile:
     path: /etc/exports
-    line: "/mnt/nfs-storage 192.168.0.0/24(rw,sync,no_subtree_check,no_root_squash)"
+    line: "/mnt/nfs-storage 192.168.56.0/24(rw,sync,no_subtree_check,no_root_squash)"
     state: present
 
 - name: Restart NFS service
@@ -49,5 +49,5 @@
 - name: Allow NFS through UFW
   ufw:
     rule: allow
-    from_ip: 192.168.0.0/24
+    from_ip: 192.168.56.0/24
     port: nfs
