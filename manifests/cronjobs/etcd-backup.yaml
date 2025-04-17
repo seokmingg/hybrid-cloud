@@ -32,12 +32,16 @@ metadata:
   name: etcd-backup
   namespace: kube-system
 spec:
-#  schedule: "0 */3 * * *"  # 3시간마다
-  schedule: "*/5 * * * *"  # 3시간마다
+  schedule: "0 */3 * * *"  # 3시간마다
+#  schedule: "*/5 * * * *"  # 3시간마다
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
       template:
         spec:
+          hostNetwork: true
+          dnsPolicy: ClusterFirstWithHostNet
           nodeSelector:
             node-role.kubernetes.io/control-plane: ""
           tolerations:
@@ -56,18 +60,22 @@ spec:
                   set -e
                   export ETCDCTL_API=3
                   
-                  echo "[1] etcd 백업 중..."
-                  etcdctl snapshot save /backup/etcd-snapshot-$(date +%F_%H-%M-%S).db \
-                    --endpoints=https://127.0.0.1:2379 \
+                  echo "[1] 디버깅 정보 확인..."
+                  echo "ETCDCTL_API: $ETCDCTL_API"
+                  ls -l /etc/etcd/certs/
+                  
+                  echo "[2] etcd 백업 중..."
+                  BACKUP_FILE="/backup/etcd-snapshot-$(date +%F_%H-%M-%S).db"
+                  etcdctl --endpoints=https://127.0.0.1:2379 \
                     --cacert=/etc/etcd/certs/ca.crt \
                     --cert=/etc/etcd/certs/server.crt \
                     --key=/etc/etcd/certs/server.key \
-                    --debug
+                    snapshot save $BACKUP_FILE
                   
-                  echo "[2] 백업 파일 확인..."
+                  echo "[3] 백업 파일 확인..."
                   ls -lh /backup/
                   
-                  echo "[3] 최대 9개 초과한 스냅샷 삭제 중..."
+                  echo "[4] 최대 9개 초과한 스냅샷 삭제 중..."
                   ls -1t /backup/etcd-snapshot-*.db | tail -n +10 | xargs -r rm -f
               volumeMounts:
                 - name: backup-volume
