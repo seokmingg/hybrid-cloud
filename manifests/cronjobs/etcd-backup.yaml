@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: etcd-backup-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: "etcd-backup"
+  nfs:
+    path: /mnt/nfs-storage/etcd-backup
+    server: 192.168.56.100
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: etcd-backup-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: etcd-backup
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: etcd-backup
+  namespace: kube-system
+spec:
+#  schedule: "0 */3 * * *"  # 3시간마다
+  schedule: "*/5 * * * *"  # 3시간마다
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: etcd-backup
+              image: bitnami/etcd:3.5.12
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  set -e
+                  export ETCDCTL_API=3
+                  
+                  echo "[1] etcd 백업 중..."
+                  etcdctl snapshot save /backup/etcd-snapshot-$(date +%F_%H-%M-%S).db \
+                    --endpoints=https://127.0.0.1:2379 \
+                    --cacert=/etc/etcd/certs/ca.crt \
+                    --cert=/etc/etcd/certs/server.crt \
+                    --key=/etc/etcd/certs/server.key
+                  
+                  echo "[2] 최대 9개 초과한 스냅샷 삭제 중..."
+                  ls -1t /backup/etcd-snapshot-*.db | tail -n +10 | xargs -r rm -f
+              volumeMounts:
+                - name: backup-volume
+                  mountPath: /backup
+                - name: etcd-certs
+                  mountPath: /etc/etcd/certs
+                  readOnly: true
+          restartPolicy: OnFailure
+          nodeSelector:
+            node-role.kubernetes.io/control-plane: ""
+          volumes:
+            - name: backup-volume
+              persistentVolumeClaim:
+                claimName: etcd-backup-pvc
+            - name: etcd-certs
+              hostPath:
+                path: /etc/kubernetes/pki/etcd
