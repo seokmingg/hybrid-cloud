@@ -32,8 +32,8 @@ metadata:
   name: test-hybrid-logs-backup
   namespace: monitoring
 spec:
-  schedule: "0 * * * *"  # 매 정시마다 실행 (UTC 기준)
-#  schedule: "*/5 * * * *"  # 매 정시마다 실행 (UTC 기준)
+#  schedule: "0 * * * *"  # 매 정시마다 실행 (UTC 기준)
+  schedule: "*/5 * * * *"  # 매 정시마다 실행 (UTC 기준)
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 1
   jobTemplate:
@@ -70,7 +70,7 @@ spec:
                      --data-urlencode start="${START}" \
                      --data-urlencode end="${END}" )
                        echo "$RESULT" 
-                     echo "$RESULT"    | jq '.' > /mnt/nfs-storage/test-hybrid-logs/test-hybrid-back-logs/${NOW_DATE}/log-${HOUR}.json
+                     echo "$RESULT"    | jq '.' > /mnt/nfs-storage/test-hybrid-back-logs/${NOW_DATE}/log-${HOUR}.json
                   
                   
                   
