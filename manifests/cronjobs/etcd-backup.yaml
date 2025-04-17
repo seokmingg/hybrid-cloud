@@ -24,7 +24,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: etcd-backup
+  storageClassName: "etcd-backup"
 ---
 apiVersion: batch/v1
 kind: CronJob
