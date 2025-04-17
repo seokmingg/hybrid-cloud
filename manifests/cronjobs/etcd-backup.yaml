@@ -37,6 +37,12 @@ spec:
     spec:
       template:
         spec:
+          nodeSelector:
+            node-role.kubernetes.io/control-plane: ""
+          tolerations:
+            - key: "node-role.kubernetes.io/control-plane"
+              operator: "Exists"
+              effect: "NoSchedule"
           containers:
             - name: etcd-backup
               image: bitnami/etcd:3.5.12
@@ -63,8 +69,6 @@ spec:
                   mountPath: /etc/etcd/certs
                   readOnly: true
           restartPolicy: OnFailure
-          nodeSelector:
-            node-role.kubernetes.io/control-plane: ""
           volumes:
             - name: backup-volume
               persistentVolumeClaim:
