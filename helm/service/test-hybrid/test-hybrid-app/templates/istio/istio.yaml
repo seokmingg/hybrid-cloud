@@ -45,23 +45,23 @@ spec:
             host: test-hybrid-back.test.svc.cluster.local         # Stable 백엔드
             port:
               number: 3000
-          weight: 90
+          weight: 50
         - destination:
             host: test-hybrid-canary-back.test.svc.cluster.local    # Canary 백엔드
             port:
               number: 3000
-          weight: 10
+          weight: 50
 
     - route:
         - destination:
             host: test-hybrid-front.test.svc.cluster.local         # Stable 프론트엔드
             port:
               number: 80
-          weight: 90
+          weight: 50
         - destination:
             host: test-hybrid-canary-front.test.svc.cluster.local    # Canary 프론트엔드
             port:
               number: 80
-          weight: 10
+          weight: 50
 
 {{- end }}
