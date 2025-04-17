@@ -61,9 +61,13 @@ spec:
                     --endpoints=https://127.0.0.1:2379 \
                     --cacert=/etc/etcd/certs/ca.crt \
                     --cert=/etc/etcd/certs/server.crt \
-                    --key=/etc/etcd/certs/server.key
+                    --key=/etc/etcd/certs/server.key \
+                    --debug
                   
-                  echo "[2] 최대 9개 초과한 스냅샷 삭제 중..."
+                  echo "[2] 백업 파일 확인..."
+                  ls -lh /backup/
+                  
+                  echo "[3] 최대 9개 초과한 스냅샷 삭제 중..."
                   ls -1t /backup/etcd-snapshot-*.db | tail -n +10 | xargs -r rm -f
               volumeMounts:
                 - name: backup-volume
