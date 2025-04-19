@@ -2,7 +2,7 @@ cni:
   enabled: true
   chained: true
   cniConfDir: /etc/cni/net.d
-  cniConfFileName: 10-calico.conflist  # ✅ 반드시 명시
+  cniConfFileName: 10-calico.conflist
   cniBinDir: /opt/cni/bin
   logLevel: info
   excludeNamespaces:
@@ -11,3 +11,7 @@ cni:
 
 global:
   istioNamespace: istio-system
+
+pilot:
+  cni:
+    enabled: true
