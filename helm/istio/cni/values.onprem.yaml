@@ -1,5 +1,6 @@
 cni:
   enabled: true
+  cniConfFileName: 05-istio-cni.conf
   cniBinDir: /opt/cni/bin
   cniConfDir: /etc/cni/net.d
   chained: true
