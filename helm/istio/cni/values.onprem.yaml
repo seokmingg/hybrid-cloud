@@ -1,14 +1,13 @@
 cni:
   enabled: true
-  cniConfFileName: 05-istio-cni.conf
-  cniBinDir: /opt/cni/bin
-  cniConfDir: /etc/cni/net.d
   chained: true
+  cniConfDir: /etc/cni/net.d
+  cniConfFileName: 10-calico.conflist  # ✅ 반드시 명시
+  cniBinDir: /opt/cni/bin
   logLevel: info
   excludeNamespaces:
-    - istio-system
     - kube-system
-  namespace: kube-system
+    - istio-system
 
 global:
   istioNamespace: istio-system
