@@ -1,0 +1,10 @@
+- name: Restore etcd snapshot to master node
+  hosts: onprem_master
+  become: true
+  vars_prompt:
+    - name: snapshot_file
+      prompt: "복원할 etcd 스냅샷 파일 이름을 입력하세요 (예: etcd-snapshot-2025-04-18_00-00-01.db)"
+      private: no
+
+  roles:
+    - restore-etcd

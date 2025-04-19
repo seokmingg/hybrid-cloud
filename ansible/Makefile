@@ -1,6 +1,6 @@
 .PHONY: all \
     accounts-role common  nfs lvm docker install-k8s master-init worker-join etcd-install \
-     firewall
+     firewall restore-etcd
 
 # 전체 실행 (순차적으로 실행)
 all:  common nfs lvm docker install-k8s master-init worker-join
@@ -41,14 +41,9 @@ etcd-install:
 	ansible-playbook playbooks/k8s/install-etcdctl.yaml -i inventory/hosts.ini
 
 
-# CNI 설치 (예: Calico)
-cni:
-	ansible-playbook playbooks/k8s/cni.yaml -i inventory/hosts.ini
-
-
-
-
 # 방화벽 설정
 firewall:
 	ansible-playbook playbooks/firewall.yaml -i inventory/hosts.ini
 
+restore-etcd:
+	ansible-playbook playbooks/restore-etcd.yaml -i inventory/hosts.ini

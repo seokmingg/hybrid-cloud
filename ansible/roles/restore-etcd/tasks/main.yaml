@@ -1,0 +1,101 @@
+- name: 현재 마스터 노드 이름 가져오기
+  command: hostname
+  register: master_hostname
+
+- name: drain 전 노드 상태 확인
+  shell: |
+    kubectl get pods -A -o wide --field-selector spec.nodeName={{ master_hostname.stdout }}
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  register: pods_on_master
+
+- name: 마스터 노드에 떠 있는 파드 출력
+  debug:
+    msg: "{{ pods_on_master.stdout_lines }}"
+
+- name: 마스터 노드에서 모든 파드 비우기 (drain)
+  shell: |
+    kubectl drain {{ master_hostname.stdout }} \
+      --ignore-daemonsets \
+      --delete-emptydir-data \
+      --force
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+
+# Static Pod manifest 이동하여 비활성화
+- name: kube-apiserver manifest 백업 및 제거
+  shell: mv /etc/kubernetes/manifests/kube-apiserver.yaml /etc/kubernetes/manifests/kube-apiserver.yaml.bak || true
+
+- name: kube-controller-manager manifest 백업 및 제거
+  shell: mv /etc/kubernetes/manifests/kube-controller-manager.yaml /etc/kubernetes/manifests/kube-controller-manager.yaml.bak || true
+
+- name: kube-scheduler manifest 백업 및 제거
+  shell: mv /etc/kubernetes/manifests/kube-scheduler.yaml /etc/kubernetes/manifests/kube-scheduler.yaml.bak || true
+
+- name: etcd manifest 백업 및 제거
+  shell: mv /etc/kubernetes/manifests/etcd.yaml /etc/kubernetes/manifests/etcd.yaml.bak || true
+
+- name: kubelet이 Static Pod 제거될 때까지 대기
+  pause:
+    seconds: 10
+
+- name: 기존 etcd 데이터 백업
+  shell: |
+    mkdir -p /var/lib/etcd-backup-before-restore
+    mv /var/lib/etcd/* /var/lib/etcd-backup-before-restore/ || true
+  args:
+    executable: /bin/bash
+
+- name: etcd snapshot 복원
+  shell: |
+    ETCDCTL_API=3 etcdctl snapshot restore /mnt/nfs-storage/etcd-backup/{{ snapshot_file }} \
+      --data-dir /var/lib/etcd \
+      --name etcd \
+      --initial-cluster etcd=https://127.0.0.1:2380 \
+      --initial-cluster-token etcd-cluster \
+      --initial-advertise-peer-urls https://127.0.0.1:2380
+  environment:
+    ETCDCTL_API: "3"
+    ETCDCTL_CACERT: /etc/kubernetes/pki/etcd/ca.crt
+    ETCDCTL_CERT: /etc/kubernetes/pki/etcd/server.crt
+    ETCDCTL_KEY: /etc/kubernetes/pki/etcd/server.key
+
+- name: etcd manifest 복원 (재생성)
+  shell: mv /etc/kubernetes/manifests/etcd.yaml.bak /etc/kubernetes/manifests/etcd.yaml
+
+- name: kubelet이 etcd 다시 띄울 때까지 대기
+  pause:
+    seconds: 10
+
+- name: etcd 헬스 체크 수행
+  shell: |
+    ETCDCTL_API=3 etcdctl endpoint health --endpoints=https://127.0.0.1:2379
+  register: etcd_health
+  environment:
+    ETCDCTL_API: "3"
+    ETCDCTL_CACERT: /etc/kubernetes/pki/etcd/ca.crt
+    ETCDCTL_CERT: /etc/kubernetes/pki/etcd/server.crt
+    ETCDCTL_KEY: /etc/kubernetes/pki/etcd/server.key
+
+- name: etcd 상태 출력
+  debug:
+    msg: "{{ etcd_health.stdout }}"
+
+# kube-apiserver, controller, scheduler manifest 복원
+- name: kube-apiserver manifest 복원
+  shell: mv /etc/kubernetes/manifests/kube-apiserver.yaml.bak /etc/kubernetes/manifests/kube-apiserver.yaml
+
+- name: kube-controller-manager manifest 복원
+  shell: mv /etc/kubernetes/manifests/kube-controller-manager.yaml.bak /etc/kubernetes/manifests/kube-controller-manager.yaml
+
+- name: kube-scheduler manifest 복원
+  shell: mv /etc/kubernetes/manifests/kube-scheduler.yaml.bak /etc/kubernetes/manifests/kube-scheduler.yaml
+
+- name: kubelet이 kube-system Static Pod 다시 기동할 때까지 대기
+  pause:
+    seconds: 10
+
+- name: 마스터 노드 다시 스케줄 가능하게 (uncordon)
+  shell: kubectl uncordon {{ master_hostname.stdout }}
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
