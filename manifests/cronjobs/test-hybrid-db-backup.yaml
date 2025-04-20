@@ -41,7 +41,7 @@ spec:
         spec:
           containers:
             - name: db-backup
-              image: bitnami/postgresql:15
+              image: bitnami/postgresql:16
               securityContext:
                 runAsUser: 0
               command:
