@@ -16,7 +16,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: test-db-backup-pvc
-  namespace: test  # 너의 namespace로 바꿔줘
+  namespace: test
 spec:
   accessModes:
     - ReadWriteMany
@@ -38,6 +38,9 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          annotations:
+            sidecar.istio.io/inject: "false"  # Istio 사이드카 주입 방지
         spec:
           containers:
             - name: db-backup
@@ -49,7 +52,7 @@ spec:
                 - -c
                 - |
                   export PGPASSWORD=$(cat /secrets/password)
-                  pg_dump -U "$PGUSER" -h test-hybrid-db-postgresql-ha-postgresql -d "$PGDATABASE" > /backup/backup.sql
+                  pg_dump -U "$PGUSER" -h test-hybrid-db-postgresql-ha-postgresql -d "$PGDATABASE" > /backup/backup-$(date +\%Y\%m\%d-\%H\%M\%S).sql
               volumeMounts:
                 - name: backup-vol
                   mountPath: /backup
