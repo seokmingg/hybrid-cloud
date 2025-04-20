@@ -32,7 +32,7 @@ metadata:
   name: test-hybrid-db-backup
   namespace: test
 spec:
-  schedule: "*/5 * * * *"
+  schedule: "0 * * * *"
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 1
   jobTemplate:
