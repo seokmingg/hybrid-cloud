@@ -7,6 +7,7 @@ spec:
     storage: 1Gi
   accessModes:
     - ReadWriteMany
+  storageClassName: "test-db-backup"
   nfs:
     path: /mnt/nfs-storage/test-db-backup
     server: 192.168.56.100
@@ -22,12 +23,13 @@ spec:
   resources:
     requests:
       storage: 1Gi
+  storageClassName: "test-db-backup"
   volumeName: test-db-backup-pv
 ---
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: db-backup
+  name: test-hybrid-db-backup
   namespace: test
 spec:
   schedule: "*/5 * * * *"  # 5분마다
