@@ -37,6 +37,7 @@
 
 ### 🔗 관련 링크
 
+- 자세한 정보는 Notion 문서 참고: [https://www.notion.so/1bcf3c769d45809683f3f79a6207375b?pvs=4](https://www.notion.so/1bcf3c769d45809683f3f79a6207375b?pvs=4)
 - GitHub (테스트 앱): [https://github.com/seokmingg/test-hybrid](https://github.com/seokmingg/test-hybrid)
 
 - 호스팅 중인 사이트 (공통 ID/PW: `user` / `A123456z`)
