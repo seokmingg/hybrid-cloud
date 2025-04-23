@@ -60,13 +60,13 @@ loki:
       ingestion_burst_size_mb: 20   # 한 번에 20MB까지 허용
 
 
-      retention_period: 744h  # 로그 31일 보관
+      retention_period: 72h  # 데이터 보관 기간
 
 
 
     table_manager:
       retention_deletes_enabled: true
-      retention_period: 744h
+      retention_period: 72h
 
 
 memberlist:
