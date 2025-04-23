@@ -29,6 +29,13 @@ loki:
     common:
       replication_factor: 1
 
+      ring:
+        kvstore:
+          store: memberlist  # Ring 상태를 memberlist 기반으로 관리
+
+
+
+
     # Loki가 /var/loki-shared/... 아래에 데이터를 쌓도록 경로 변경
     schema_config:
       configs:
@@ -49,10 +56,26 @@ loki:
       shared_store: filesystem
 
     limits_config:
+      ingestion_rate_mb: 10            # 초당 10MB까지 수용
+      ingestion_burst_size_mb: 20   # 한 번에 20MB까지 허용
+
+
       retention_period: 744h  # 로그 31일 보관
+
+
+
     table_manager:
       retention_deletes_enabled: true
       retention_period: 744h
+
+
+memberlist:
+  service:
+    name: loki-loki-distributed-memberlist
+  bind_port: 7946
+
+
+
 
 tableManager:
   enabled: true
